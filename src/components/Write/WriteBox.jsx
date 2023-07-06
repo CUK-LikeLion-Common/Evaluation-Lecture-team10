@@ -1,6 +1,11 @@
 import styled from "styled-components";
 
 const WriteBox = () => {
+  // 글쓰기 등록시 onclick 이벤트 (지금은 alert만 구현)
+  const WriteBtn = () => {
+    alert("등록되었습니다");
+  };
+
   return (
     <Wrapper>
       <div>
@@ -24,7 +29,7 @@ const WriteBox = () => {
       </div>
 
       <div>
-        <Button>등록</Button>
+        <Button onClick={() => WriteBtn()}>등록</Button>
       </div>
     </Wrapper>
   );
