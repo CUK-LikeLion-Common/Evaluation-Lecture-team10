@@ -1,5 +1,11 @@
+import Router from "./shared/Router";
+
 function App() {
-  return <>App</>;
+  return (
+    <>
+      <Router />
+    </>
+  );
 }
 
 export default App;
