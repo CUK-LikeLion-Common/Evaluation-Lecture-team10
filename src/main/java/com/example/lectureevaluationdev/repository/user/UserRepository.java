@@ -9,20 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUserID(String userID);
 
-    @Modifying
-    @Transactional
-    @Query("UPDATE User u SET u.status = true WHERE u.userID = :userID")
-    int setStatusTrue(String userID);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE User u SET u.status = false WHERE u.userID= :userID")
-    int setStatusFalse(String userID);
-
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM User u WHERE u.userID = :userID")
-    int deleteUserById(String userID);
 }

@@ -15,17 +15,4 @@ import java.util.Optional;
 
 @Repository
 public interface EvaluationRepository extends JpaRepository<Evaluation, Long>, PagingAndSortingRepository<Evaluation,Long> {
-    //Optional<Evaluation> findByEvaluationID(long evaluationID);
-    Evaluation findByEvaluationID(long evaluationID);
-
-    //@Query("SELECT e FROM Evaluation e WHERE e.lectureName LIKE %:search% OR e.professorName LIKE %:search% OR e.evaluationTitle LIKE %:search% OR e.evaluationContent LIKE %:search%")
-    //List<Evaluation> findBySearchLike(@Param("search") String search);
-    //Page<Evaluation> findAll(Pageable pageable);
-    //Page<Evaluation> findAllByEvaluationContentContainingIgnoreCase(String search, Pageable pageable);
-    //Page<Evaluation> findAllByLectureDivideAndEvaluationContentContainingIgnoreCase(String lectureDivide, String search, Pageable pageable);
-    //List<Evaluation> findAllByKeywordContainingIgnoreCase(String search, Pageable pageable);
-    //List<Evaluation> findAllByEvaluationContentContainingIgnoreCase(String search);
-    //List<Evaluation> findAllByLectureDivideAndEvaluationContentContainingIgnoreCase(String lectureDivide, String search,Pageable pageable);
-    @Query("SELECT e FROM Evaluation e WHERE e.lectureName LIKE %:search% OR  e.professorName LIKE %:search% OR e.evaluationTitle LIKE %:search% AND (:lectureDivide = '전체' OR e.lectureDivide = :lectureDivide)")
-    Page<Evaluation> searchByLectureDivideAndFields(String lectureDivide, String search, Pageable pageable);
 }

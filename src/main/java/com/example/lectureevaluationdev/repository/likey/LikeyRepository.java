@@ -7,6 +7,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 public interface LikeyRepository extends JpaRepository<Likey,Long> {
-    @Query("SELECT l FROM Likey l WHERE l.userID = :userID AND l.EvaluationID = :evaluationID")
-    Optional<Likey> findFirstByuserIDAndEvaluationID(String userID, Long evaluationID);
 }

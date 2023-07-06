@@ -23,17 +23,4 @@ public class LikeyController {
         this.likeyRepository = likeyRepository;
     }
 
-    @PostMapping("/{EvaluationID}")
-    @ResponseBody
-    public EvaluationResponse addLike(HttpServletRequest request, @PathVariable("EvaluationID") long EvaluationID,@RequestBody Map<String,Object> user) throws Exception{
-        User userInfo = User.builder()
-                .userID(user.get("userID").toString())
-                .userPassword(user.get("userPassword").toString())
-                .userEmail(user.get("userEmail").toString())
-                .build();
-
-        EvaluationResponse result = likeyService.updateLike(EvaluationID,userInfo);
-        return result;
-
-    }
 }
