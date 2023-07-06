@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import StarRating from "./StarRating";
 
 const WriteBox = () => {
   // 글쓰기 등록시 onclick 이벤트 (지금은 alert만 구현)
@@ -18,10 +19,9 @@ const WriteBox = () => {
         <Input placeholder="교수님 이름을 입력하세요" />
       </div>
 
-      <div>
-        <Label>별점 선택</Label>
-        <Input />
-      </div>
+      <StarRatingWrapper>
+        <StarRating />
+      </StarRatingWrapper>
 
       <div>
         <Label>강의 평가</Label>
@@ -40,7 +40,7 @@ export const Wrapper = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  //align-items: center;
   padding: 30px;
   max-width: fit-content;
   margin: 0 auto;
@@ -59,6 +59,11 @@ export const Input = styled.input`
   margin-top: 10px;
   margin-bottom: 30px;
   padding: 5px;
+`;
+
+export const StarRatingWrapper = styled.div`
+  text-align: left;
+  margin-bottom: 30px;
 `;
 
 export const Textarea = styled.textarea`
