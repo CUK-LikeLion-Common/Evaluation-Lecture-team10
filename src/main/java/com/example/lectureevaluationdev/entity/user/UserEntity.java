@@ -1,18 +1,18 @@
 package com.example.lectureevaluationdev.entity.user;
 
+import com.example.lectureevaluationdev.dto.user.UserDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data //get,set 메소드 이용가능하게 하는 어노테이션
 @Table(name = "user")
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//는 JPA에서 기본 키를 자동으로 생성할 때 사용하는 방법 중 하나
@@ -20,7 +20,7 @@ public class User {
     private Long ID;
 
     @Column(name="user_ID")
-    private String userID;
+    private String  userId;
 
     @Column(name="user_password")
     private String userPassword;
@@ -36,17 +36,26 @@ public class User {
 
     @Column(name="userEmailChecked")
     private boolean userEmailChecked;
-*/
-    public String getUserID() {
-        return userID;
-    }
+    */
 
-    public String getUserPassword() {
-        return userPassword;
-    }
+//    public Long getUserID() {
+//        return userID;
+//    }
+//
+//    public String getUserPassword() {
+//        return userPassword;
+//    }
+//
+//    public String getUserEmail() {
+//        return userEmail;
+//    }
 
-    public String getUserEmail() {
-        return userEmail;
+    public static UserEntity toUserEntity(UserDTO userDTO){
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserId(userDTO.getUserId());
+        userEntity.setUserEmail(userDTO.getUserEmail());
+        userEntity.setUserPassword(userDTO.getUserPassword());
+        userEntity.setStatus(userDTO.isStatus());
+        return userEntity;
     }
-
 }
