@@ -1,5 +1,11 @@
+import WriteBox from "../components/Write/WriteBox";
+
 const Write = () => {
-  return <>강의평가 글쓰기 페이지입니다</>;
+  return (
+    <>
+      <WriteBox />
+    </>
+  );
 };
 
 export default Write;
