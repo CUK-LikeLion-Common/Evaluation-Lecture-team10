@@ -3,19 +3,25 @@ import { AiTwotoneLike } from "react-icons/ai";
 import styled from "styled-components";
 
 const DetailBox = () => {
+  // 추천 버튼 클릭시 나오는 alert
+  const ReviewBtn = () => {
+    alert("추천되었습니다!");
+    // 추후에 confirm 창으로 취소/확인 버튼으로 수정할 예정
+  };
   return (
     <Wrapper>
-      <div>
-        <button>수정</button>
-        <button>삭제</button>
-      </div>
+      <ButtonContainer>
+        <Button>수정</Button>
+        <Button>삭제</Button>
+      </ButtonContainer>
+
       <LabelWrapper>
         <Label>영화로 보는 한국사</Label>
         <ProfessorWrapper>장미애</ProfessorWrapper>
       </LabelWrapper>
 
       <StarWrapper>
-        <StarLabel>별점</StarLabel>
+        <StarLabel>별점 (4.0)</StarLabel>
         <FaStar size="20" color="#fcc419" />
         <FaStar size="20" color="#fcc419" />
         <FaStar size="20" color="#fcc419" />
@@ -35,8 +41,8 @@ const DetailBox = () => {
       </div>
 
       <ReviewWrapper>
-        <AiTwotoneLike size="20" color="#d4d4d4" />
-        <ReviewText>추천</ReviewText>
+        <AiTwotoneLike size="20" color="#b9ccfa" />
+        <ReviewText onClick={() => ReviewBtn()}>추천</ReviewText>
       </ReviewWrapper>
     </Wrapper>
   );
@@ -53,6 +59,21 @@ export const Wrapper = styled.div`
   margin: 0 auto;
   margin-top: 30px;
   margin-bottom: 30px;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 10px;
+`;
+
+export const Button = styled.div`
+  margin: 10px;
+  color: gray;
+  font-size: 12px;
+  &:hover {
+    color: #011445;
+  }
 `;
 
 const LabelWrapper = styled.div`
@@ -102,8 +123,8 @@ export const ReviewWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 20px;
-  background-color: #8f8e8e;
+  margin-top: 30px;
+  background-color: #011445;
   border: none;
   color: white;
   padding: 5px 10px;
