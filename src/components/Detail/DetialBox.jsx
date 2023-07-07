@@ -5,6 +5,10 @@ import styled from "styled-components";
 const DetailBox = () => {
   return (
     <Wrapper>
+      <div>
+        <button>수정</button>
+        <button>삭제</button>
+      </div>
       <LabelWrapper>
         <Label>영화로 보는 한국사</Label>
         <ProfessorWrapper>장미애</ProfessorWrapper>
