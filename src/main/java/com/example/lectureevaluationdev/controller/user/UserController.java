@@ -40,7 +40,6 @@ public class UserController {
         if (loginUser != null) {
             //로그인 성공
             System.out.println(loginUser);
-
             if(loginUser.isStatus()) {
                 System.out.println("이미 로그인했습니다");
                 session.setAttribute("loginID", loginUser.getUserID());
@@ -50,8 +49,6 @@ public class UserController {
             }else{
                 System.out.println("로그인 성공");
                 session.setAttribute("loginID", loginUser.getUserID());
-                System.out.println(session.getAttribute("loginID"));
-
                 response.setResponseData("message", "LoginSuccess");
                 return response;
             }
@@ -67,15 +64,16 @@ public class UserController {
 
     @PostMapping("/logout")
     @ResponseBody
-    public EvaluationResponse logout(@RequestBody UserDTO userDTO) {
+    public EvaluationResponse logout(@RequestBody UserDTO userDTO,HttpSession session) {
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+        String userID = (String) session.getAttribute("loginID");
+        System.out.println(userID);
+//        String requestUserID = userDTO.getUserID();
 
-        String requestUserID = userDTO.getUserID();
-
-            if (userRepository.findByUserID(requestUserID).isPresent()) {
-                UserDTO memberDTO = new UserDTO();
-                memberDTO.setUserID(requestUserID);
-                userService.logout(memberDTO);
+            if (userID != null) {
+                userDTO.setUserID(userID);
+                userService.logout(userDTO);
+                session.invalidate();
                 response.setResponseData("message", "loginOut");
                 return response;
             }
