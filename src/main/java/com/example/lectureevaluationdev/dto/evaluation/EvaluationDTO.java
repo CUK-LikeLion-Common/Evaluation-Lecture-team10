@@ -1,11 +1,7 @@
 package com.example.lectureevaluationdev.dto.evaluation;
 
-import com.example.lectureevaluationdev.entity.likey.LikeyEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-
-import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -14,30 +10,43 @@ import java.util.List;
 @ToString //toString 메서드 자동으로 만들어줌
 @Builder
 public class EvaluationDTO {
+
     @JsonProperty("lectureScore")
-    private String lecturescore;
+    private String lectureScore;
+
     @JsonProperty("comfortableScore")
-    private String comfortablescore;
+    private String comfortableScore;
+
     @JsonProperty("creditScore")
-    private String creditscore;
+    private String creditScore;
+
     @JsonProperty("totalScore")
-    private String totalscore;
+    private String totalScore;
+
     @JsonProperty("evaluationContent")
-    private String evaluationcontent;
+    private String evaluationContent;
+
     @JsonProperty("evaluationTitle")
-    private String evaluationtitle;
+    private String evaluationTitle;
+
     @JsonProperty("lectureDivide")
-    private String lecturedivide;
+    private String lectureDivide;
+
     @JsonProperty("semesterDivide")
-    private String semesterdivide;
+    private String semesterDivide;
+
     @JsonProperty("lectureYear")
-    private int lectureyear;
+    private int lectureYear;
+
     @JsonProperty("professorName")
-    private String professorname;
+    private String professorName;
+
     @JsonProperty("lectureName")
-    private String lecturename;
+    private String lectureName;
+
     @JsonProperty("userID")
-    private String userid;
+    private String userID;
+
 //    private List<LikeyEntity> likes;
 
 

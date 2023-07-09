@@ -28,7 +28,7 @@ public class EvaluationService extends ResponseService {
         //나의 작성 게시글 확인같은걸 할수가 없음
 
         try{
-            EvaluationEntity evaluationEntity = EvaluationMapper.evaluationMapper.toEntity(evaluationDTO);
+            EvaluationEntity evaluationEntity = EvaluationMapper.INSTANCE.toEntity(evaluationDTO);
             evaluationRepository.save(evaluationEntity);
             return setResponse(200, "message", "글 작성 성공");
         }catch(Exception e){

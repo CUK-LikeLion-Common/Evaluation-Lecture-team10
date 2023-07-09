@@ -14,6 +14,9 @@ public interface GenericMapper<DTO,Entity> {
     ArrayList<Entity> toEntityList(List<DTO> list);
 
     /**Null 값이 전달될 경우 변화 시키지 않도록 설정 */
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromDto(DTO dto, @MappingTarget Entity entity);
+
+
 }

@@ -78,4 +78,20 @@ public class EvaluationEntity {
         updatedAt = currentDate;
     }
 
+    public EvaluationEntity(String userID, String lectureName, String professorName, int lectureYear, String semesterDivide, String lectureDivide, String evaluationTitle, String evaluationContent, String totalScore, String creditScore, String comfortableScore, String lectureScore) {
+        this.userID = userID;
+        this.lectureName = lectureName;
+        this.professorName = professorName;
+        this.lectureYear = lectureYear;
+        this.semesterDivide = semesterDivide;
+        this.lectureDivide = lectureDivide;
+        this.evaluationTitle = evaluationTitle;
+        this.evaluationContent = evaluationContent;
+        this.totalScore = totalScore;
+        this.creditScore = creditScore;
+        this.comfortableScore = comfortableScore;
+        this.lectureScore = lectureScore;
+    }
+
+
 }

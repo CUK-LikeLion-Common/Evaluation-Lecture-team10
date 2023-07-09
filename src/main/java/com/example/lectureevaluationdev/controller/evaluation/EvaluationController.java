@@ -36,7 +36,6 @@ public class EvaluationController {
             response.setResponseData("message", "notLoggedIn");
             return response;
         }
-        System.out.println();
         EvaluationResponse result = evaluationService.writeEvaluation(evaluationDTO);
         return result;
 
