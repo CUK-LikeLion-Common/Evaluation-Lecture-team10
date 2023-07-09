@@ -1,6 +1,6 @@
 package com.example.lectureevaluationdev.entity.evaluation;
 
-import com.example.lectureevaluationdev.entity.likey.Likey;
+import com.example.lectureevaluationdev.entity.likey.LikeyEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,9 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @Data //get,set 메소드 이용가능하게 하는 어노테이션
 @Table(name = "evaluation")
-public class Evaluation {
+public class EvaluationEntity {
     @OneToMany(mappedBy = "evaluation")
-    private List<Likey> likes;
+    private List<LikeyEntity> likes;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)//는 JPA에서 기본 키를 자동으로 생성할 때 사용하는 방법 중 하나
