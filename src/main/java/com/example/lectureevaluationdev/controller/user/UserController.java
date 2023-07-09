@@ -32,8 +32,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute UserDTO userDTO,  HttpSession session) {
-
+    @ResponseBody
+    public EvaluationResponse login(@RequestBody UserDTO userDTO,  HttpSession session) {
+       EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
         UserDTO loginUser = userService.login(userDTO);
 
         if (loginUser != null) {
@@ -42,30 +43,45 @@ public class UserController {
 
             if(loginUser.isStatus()) {
                 System.out.println("이미 로그인했습니다");
-                session.setAttribute("loginId", loginUser.getUserId());
-                System.out.println(session.getAttribute("loginId"));
-                return "alert";
+                session.setAttribute("loginID", loginUser.getUserID());
+                System.out.println(session.getAttribute("loginID"));
+                response.setResponseData("message", "alreadyLoggedIn");
+                return response;
             }else{
                 System.out.println("로그인 성공");
-                session.setAttribute("loginId", loginUser.getUserId());
-                System.out.println(session.getAttribute("loginId"));
-                return "main";
+                session.setAttribute("loginID", loginUser.getUserID());
+                System.out.println(session.getAttribute("loginID"));
+
+                response.setResponseData("message", "LoginSuccess");
+                return response;
             }
         } else {
-            return "login";
+            response.setResponseData("message", "loginFail");
+            return response;
         }
     }
-
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        String userID = (String) session.getAttribute("loginId");
-        if (userID != null) {
-            UserDTO memberDTO = new UserDTO();
-            memberDTO.setUserId(userID);
-            userService.logout(memberDTO);
-            session.invalidate();
-        }
-        return "index";
+    public String logoutForm() {
+        return "logout";
+    }
+
+    @PostMapping("/logout")
+    @ResponseBody
+    public EvaluationResponse logout(@RequestBody UserDTO userDTO) {
+        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+
+        String requestUserID = userDTO.getUserID();
+
+            if (userRepository.findByUserID(requestUserID).isPresent()) {
+                UserDTO memberDTO = new UserDTO();
+                memberDTO.setUserID(requestUserID);
+                userService.logout(memberDTO);
+                response.setResponseData("message", "loginOut");
+                return response;
+            }
+
+            response.setResponseData("message", "notLoggedIn");
+        return response;
     }
 
     @GetMapping("/")

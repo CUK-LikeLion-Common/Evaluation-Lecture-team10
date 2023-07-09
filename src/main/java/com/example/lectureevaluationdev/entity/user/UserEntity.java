@@ -20,7 +20,7 @@ public class UserEntity {
     private Long ID;
 
     @Column(name="user_ID")
-    private String  userId;
+    private String  userID;
 
     @Column(name="user_password")
     private String userPassword;
@@ -38,21 +38,21 @@ public class UserEntity {
     private boolean userEmailChecked;
     */
 
-//    public Long getUserID() {
-//        return userID;
-//    }
-//
-//    public String getUserPassword() {
-//        return userPassword;
-//    }
-//
-//    public String getUserEmail() {
-//        return userEmail;
-//    }
+    public String getUserID() {
+        return userID;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
+    }
+
+    public String getUserEmail() {
+        return userEmail;
+    }
 
     public static UserEntity toUserEntity(UserDTO userDTO){
         UserEntity userEntity = new UserEntity();
-        userEntity.setUserId(userDTO.getUserId());
+        userEntity.setUserID(userDTO.getUserID());
         userEntity.setUserEmail(userDTO.getUserEmail());
         userEntity.setUserPassword(userDTO.getUserPassword());
         userEntity.setStatus(userDTO.isStatus());

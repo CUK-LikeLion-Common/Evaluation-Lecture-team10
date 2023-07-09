@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Logout</title>
 </head>
 <body>
+<H1>로그아웃</H1>
 <input type="text" name="userID" placeholder="아이디">
 <br>
 
@@ -13,10 +14,10 @@
 <input type="password" name="userPassword" placeholder="비밀번호">
 <br>
 
-<input type="submit" value="로그인" id="loginButton">
+<input type="submit" value="로그아웃" id="logoutButton">
 
 <script>
-    const loginButton = document.getElementById('loginButton');
+    const loginButton = document.getElementById('logoutButton');
     loginButton.addEventListener('click', function(event) {
         event.preventDefault();
 
@@ -33,7 +34,7 @@
         const jsonData = JSON.stringify(formData);
         console.log(jsonData); // JSON 데이터 확인
 
-        fetch('/login', {
+        fetch('/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -48,5 +49,6 @@
         });
     });
     </script>
+</body>
 </body>
 </html>

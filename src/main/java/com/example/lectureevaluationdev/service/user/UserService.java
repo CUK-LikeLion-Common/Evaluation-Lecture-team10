@@ -26,7 +26,7 @@ public class UserService extends ResponseService {
         1.회원이 입력한 아이디로 DB에서 조회
         2.DB에서 조회한 비밀번호와 사용자가 입력한 비밀번호 맞는지 확인
          */
-        Optional<UserEntity> byUserId = userRepository.findByUserId(userDTO.getUserId());
+        Optional<UserEntity> byUserId = userRepository.findByUserID(userDTO.getUserID());
 
         if (byUserId.isPresent()) {
             //해당 이메일을 가진 회원 정보가 있다
@@ -39,7 +39,7 @@ public class UserService extends ResponseService {
                     return userDTO;
                 }else { //로그인 안 되어있던 상태
 //                    memberDTO.setMemberStatus(true);
-                    userRepository.setStatusTrue(userEntity.getUserId());
+                    userRepository.setStatusTrue(userEntity.getUserID());
                    UserDTO dto = UserDTO.toUserDTO(userEntity);
                     return dto;
                 }
@@ -53,10 +53,10 @@ public class UserService extends ResponseService {
     }
 
     public void logout(UserDTO memberDTO){
-        Optional<UserEntity> byMemberId = userRepository.findByUserId(memberDTO.getUserId());
+        Optional<UserEntity> byMemberId = userRepository.findByUserID(memberDTO.getUserID());
         if (byMemberId.isPresent()){
            UserEntity userEntity = byMemberId.get();
-            userRepository.setStatusFalse(userEntity.getUserId());
+            userRepository.setStatusFalse(userEntity.getUserID());
             userRepository.save(userEntity); // 변경된 상태를 저장
         }
 

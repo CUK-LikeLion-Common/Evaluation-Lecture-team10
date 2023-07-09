@@ -13,16 +13,16 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<UserEntity> findByUserId(String userID);
+    Optional<UserEntity> findByUserID(String userID);
 
     @Modifying
     @Transactional
-    @Query("UPDATE UserEntity u SET u.status = true WHERE u.userId = :userID")
+    @Query("UPDATE UserEntity u SET u.status = true WHERE u.userID = :userID")
     int setStatusTrue(@Param("userID") String userID);
 
     @Modifying
     @Transactional
-    @Query("UPDATE UserEntity u SET u.status = false WHERE u.userId = :userID")
+    @Query("UPDATE UserEntity u SET u.status = false WHERE u.userID = :userID")
     int setStatusFalse(@Param("userID") String userID);
 
 }
