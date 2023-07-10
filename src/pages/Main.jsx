@@ -9,9 +9,9 @@ const lectures = ARRAY.map((array) => <LikeBox />);
 
 const Wrapper = styled.div`
   text-align: center;
+  align-items: center;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 30px;
   font-family: Inter;
   font-weight: 400;
@@ -19,8 +19,6 @@ const Wrapper = styled.div`
 
 const Banner = styled.div`
   background-color: #0c2e86;
-  margin-left: auto;
-  margin-right: auto;
   width: 1440px;
   height: 420px;
 `;
@@ -40,9 +38,6 @@ const Text = styled.div`
   text-align: left;
   color: #fff;
   font-size: 32px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 `;
 
 const Image = styled.img.attrs({
@@ -52,11 +47,8 @@ const Image = styled.img.attrs({
 `;
 
 const SearchBox = styled.div`
-  //background-color: tomato;
   display: flex;
   flex-direction: column;
-  margin-left: auto;
-  margin-right: auto;
   width: 695px;
   height: 420px;
 `;
