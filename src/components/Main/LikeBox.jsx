@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const ARRAY = [0, 1, 2, 3, 4];
 
 const stars = ARRAY.map((array) => <FaStar size="20" />);
 
-const Likes = styled.div`
+const Likes = styled(motion.div)`
   margin-top: 10px;
   text-align: left;
   width: 300px;
@@ -47,7 +48,7 @@ const LikeBox = () => {
       to={"/:lectureId"}
       style={{ textDecoration: "none", color: "inherit" }}
     >
-      <Likes>
+      <Likes whileHover={{ border: "3px solid #0c2e86", duration: 3 }}>
         <LecTitle>강의명</LecTitle>
         <LecContent>000 교수님</LecContent>
         <LecStar>
