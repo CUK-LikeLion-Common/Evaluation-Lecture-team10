@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const ARRAY = [0, 1, 2, 3, 4];
 
@@ -42,15 +43,20 @@ const LecStar = styled.div`
 
 const LikeBox = () => {
   return (
-    <Likes>
-      <LecTitle>강의명</LecTitle>
-      <LecContent>000 교수님</LecContent>
-      <LecStar>
-        {stars}
-        <span>5.0</span>
-        <LecContent>작성자</LecContent>
-      </LecStar>
-    </Likes>
+    <Link
+      to={"/:lectureId"}
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
+      <Likes>
+        <LecTitle>강의명</LecTitle>
+        <LecContent>000 교수님</LecContent>
+        <LecStar>
+          {stars}
+          <span>5.0</span>
+          <LecContent>작성자</LecContent>
+        </LecStar>
+      </Likes>
+    </Link>
   );
 };
 
