@@ -2,6 +2,7 @@ import styled from "styled-components";
 import img from "../img/main_evaluation_image.png";
 import { FiSearch } from "react-icons/fi";
 import LikeBox from "../components/Main/LikeBox";
+import { useState } from "react";
 
 const ARRAY = [0, 1, 2, 3];
 
@@ -53,13 +54,14 @@ const SearchBox = styled.div`
   height: 420px;
 `;
 
-const SearchTitle = styled.div`
+const SearchTitle = styled.label`
   margin-top: 20px;
   text-align: left;
   font-size: 20px;
 `;
 
 const SearchInputBox = styled.div`
+  display: block;
   margin-top: 30px;
   text-align: left;
   display: flex;
@@ -81,15 +83,20 @@ const SearchInput = styled.input`
   }
 `;
 
+const SearchSvgInput = styled.input`
+  display: none;
+`;
+
 const SearchSvg = styled(FiSearch)`
   width: 25px;
   height: 25px;
 `;
 
-const LikeTitle = styled.div`
+const LikeTitle = styled.select`
   margin-top: 20px;
   text-align: left;
   font-size: 15px;
+  float: left;
 `;
 
 const LikeContainer = styled.div`
@@ -98,6 +105,8 @@ const LikeContainer = styled.div`
 `;
 
 const Main = () => {
+  const [selected, setSelected] = useState("popular");
+  const onChange = (event) => setSelected(event.target.value);
   return (
     <>
       <Wrapper>
@@ -111,15 +120,24 @@ const Main = () => {
           </BannerBox>
         </Banner>
         <SearchBox>
-          <SearchTitle>강의 평가 검색하기</SearchTitle>
-          <SearchInputBox>
-            <SearchInput
-              type="text"
-              placeholder="강의명, 교수님 이름으로 검색할 수 있어요"
-            ></SearchInput>
-            <SearchSvg />
-          </SearchInputBox>
-          <LikeTitle>추천 많은 순</LikeTitle>
+          <SearchTitle htmlFor="submitBtn">강의 평가 검색하기</SearchTitle>
+          <form>
+            <SearchInputBox>
+              <SearchInput
+                type="text"
+                id="submitBtn"
+                placeholder="강의명, 교수님 이름으로 검색할 수 있어요"
+              ></SearchInput>
+              <label htmlfor="submitBtn">
+                <SearchSvgInput type="submit" />
+                <SearchSvg />
+              </label>
+            </SearchInputBox>
+            <LikeTitle onChange={(event) => onChange(event)} name="order">
+              <option value="popular">추천 많은 순</option>
+              <option value="latest">최신순</option>
+            </LikeTitle>
+          </form>
           <LikeContainer>{lectures}</LikeContainer>
         </SearchBox>
       </Wrapper>
