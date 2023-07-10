@@ -25,4 +25,9 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     @Query("UPDATE UserEntity u SET u.status = false WHERE u.userID = :userID")
     int setStatusFalse(@Param("userID") String userID);
 
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM UserEntity u WHERE u.userID = :userID")
+    int deleteUserByUserID(@Param("userID") String userID);
+
 }
