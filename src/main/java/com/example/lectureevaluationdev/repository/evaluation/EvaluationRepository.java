@@ -30,4 +30,6 @@ public interface EvaluationRepository extends JpaRepository<EvaluationEntity, Lo
             @Param("search") String search,
             Pageable pageable
     );
+
+    Optional<EvaluationEntity> findByEvaluationID(long evaluationID);
 }
