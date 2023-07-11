@@ -41,11 +41,11 @@ public class EvaluationController {
         return result;
     }
 
-    @GetMapping("/search")
-    public EvaluationResponse searchEvaluationBoards(@RequestParam("lectureDivide") String lectureDivide,
-                                                     @RequestParam("pageNum") int pageNum,
+    @GetMapping("/search/{pageNum}")
+    public EvaluationResponse searchEvaluationBoards(@PathVariable("pageNum") int pageNum,
+                                                     @RequestParam("lectureDivide") String lectureDivide,
                                                      @RequestParam("searchType") String searchType,
                                                      @RequestParam("search") String search) {
-        return evaluationService.searchEvaluations(lectureDivide, pageNum, searchType, search);
+        return evaluationService.searchEvaluations(pageNum, lectureDivide, searchType, search);
     }
 }
