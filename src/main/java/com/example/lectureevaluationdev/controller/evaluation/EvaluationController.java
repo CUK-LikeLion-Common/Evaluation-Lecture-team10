@@ -38,8 +38,13 @@ public class EvaluationController {
         }
         EvaluationResponse result = evaluationService.writeEvaluation(evaluationDTO);
         return result;
-
-
     }
 
+    @GetMapping("/search")
+    public EvaluationResponse searchEvaluationBoards(@RequestParam("lectureDivide") String lectureDivide,
+                                                     @RequestParam("pageNum") int pageNum,
+                                                     @RequestParam("searchType") String searchType,
+                                                     @RequestParam("search") String search) {
+        return evaluationService.searchEvaluations(lectureDivide, pageNum, searchType, search);
+    }
 }
