@@ -7,9 +7,7 @@ import com.example.lectureevaluationdev.primary.ResponseService;
 import com.example.lectureevaluationdev.repository.user.UserRepository;
 import com.example.lectureevaluationdev.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -79,14 +77,14 @@ public class UserController {
             if (loginUser.isStatus()) {
                 System.out.println("이미 로그인했습니다");
                 session.setAttribute("loginUser", loginUser);
-                System.out.println(session.getAttribute("loginUser"));
+                System.out.println(session.getAttribute("loginUser")+"이미 로그인");
                 response.setResponseData("message", "alreadyLoggedIn");
                 return response;
             } else {
                 System.out.println("로그인 성공");
                 session.setAttribute("loginUser", loginUser);
                 System.out.println(session.getAttribute("loginUser"));
-
+                System.out.println(session.getAttribute("loginUser")+"로그인 성공");
                 response.setResponseData("message", "LoginSuccess");
                 return response;
             }
@@ -103,22 +101,25 @@ public class UserController {
 
     @PostMapping("/logout")
     @ResponseBody
-    public EvaluationResponse logout(@RequestBody UserDTO userDTO,HttpSession session) {
+    public EvaluationResponse logout(@RequestBody UserDTO userDTO,HttpSession session) throws Exception {
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
-        String userID = (String) session.getAttribute("loginID");
-        System.out.println(userID);
-//        String requestUserID = userDTO.getUserID();
 
-            if (userID != null) {
-                userDTO.setUserID(userID);
+        UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+        System.out.println("Login User: " + loginUser);
+//      String requestUserID = userDTO.getUserID();
+
+            if ( loginUser != null) {
+                userDTO.setUserID( loginUser.getUserID());
                 userService.logout(userDTO);
                 session.invalidate();
-                response.setResponseData("message", "loginOut");
+                response.setResponseData("message", "logOut");
                 return response;
             }
 
-            response.setResponseData("message", "notLoggedIn");
+                response.setResponseData("message", "notLoggedIn");
+
         return response;
+
     }
 
     @PostMapping("/join")
