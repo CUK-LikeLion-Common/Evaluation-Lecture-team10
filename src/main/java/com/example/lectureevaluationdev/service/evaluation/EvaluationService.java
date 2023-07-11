@@ -94,4 +94,17 @@ public class EvaluationService extends ResponseService {
 
         return response;
     }
+
+    public EvaluationResponse modifyEvaluation(EvaluationDTO evaluationDTO){
+
+        try{
+            EvaluationEntity evaluationEntity = EvaluationMapper.INSTANCE.toEntity(evaluationDTO);
+            evaluationRepository.save(evaluationEntity);
+            return setResponse(200, "message", "글 작성 성공");
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("글 작성 오류 발생");
+        }
+        return null;
+    }
 }

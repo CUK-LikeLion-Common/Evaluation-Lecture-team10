@@ -31,6 +31,7 @@ public class EvaluationController {
     public EvaluationResponse writeEvaluationBoard(HttpServletRequest request, @RequestBody EvaluationDTO evaluationDTO) throws Exception {
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
         HttpSession sessions = request.getSession(); // 기존 세션 가져오기
+
         if (sessions == null || sessions.getAttribute("loginID") == null) {
             // 로그인되지 않은 경우에 대한 처리
             response.setResponseData("message", "notLoggedIn");
