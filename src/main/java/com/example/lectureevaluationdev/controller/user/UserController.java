@@ -8,6 +8,7 @@ import com.example.lectureevaluationdev.repository.user.UserRepository;
 import com.example.lectureevaluationdev.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +19,20 @@ import java.util.Map;
 
 
 @Controller
-@RequiredArgsConstructor
 public class UserController {
+
 
     private final UserService userService;
     private final UserRepository userRepository;
     private final ResponseService responseService = new ResponseService();
 
-//    @Autowired
-//    public UserController(UserService userService) {
-//        this.userService = userService;
-//    }
+
+    @Autowired
+    public UserController(UserService userService,UserRepository userRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+
+    }
 
     @GetMapping("/login")
     public String loginForm() {
@@ -37,14 +41,13 @@ public class UserController {
 
     /*@PostMapping("/login")
     @ResponseBody
-    public EvaluationResponse login(@RequestBody UserDTO userDTO,  HttpSession session) {
+    public EvaluationResponse login(@RequestBody UserDTO userDTO, HttpSession session) {
        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
         UserDTO loginUser = userService.login(userDTO);
 
         if (loginUser != null) {
             //로그인 성공
             System.out.println(loginUser);
-
             if(loginUser.isStatus()) {
                 System.out.println("이미 로그인했습니다");
                 session.setAttribute("loginID", loginUser.getUserID());

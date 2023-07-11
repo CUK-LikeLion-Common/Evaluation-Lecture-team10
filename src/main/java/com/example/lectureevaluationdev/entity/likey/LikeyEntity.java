@@ -1,6 +1,6 @@
 package com.example.lectureevaluationdev.entity.likey;
 
-import com.example.lectureevaluationdev.entity.evaluation.Evaluation;
+import com.example.lectureevaluationdev.entity.evaluation.EvaluationEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,11 +15,11 @@ import java.util.Date;
 @NoArgsConstructor
 @Data //get,set 메소드 이용가능하게 하는 어노테이션
 @Table(name = "likey")
-public class Likey {
+public class LikeyEntity {
 
     @ManyToOne
     @JoinColumn(name="evaluation_ID", referencedColumnName="evaluation_ID", insertable = false, updatable = false)
-    private Evaluation evaluation;
+    private EvaluationEntity evaluation;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
