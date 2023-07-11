@@ -108,7 +108,6 @@ public class UserController {
         String userID = (String) session.getAttribute("loginID");
         System.out.println(userID);
 //        String requestUserID = userDTO.getUserID();
-
             if (userID != null) {
                 userDTO.setUserID(userID);
                 userService.logout(userDTO);

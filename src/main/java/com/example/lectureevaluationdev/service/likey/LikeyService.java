@@ -31,7 +31,7 @@ public class LikeyService extends ResponseService {
 
     public EvaluationResponse updateLike(long evaluationID, LikeyDTO likeyDTO) {
         Optional<UserEntity> usercheck = userRepository.findByUserID(likeyDTO.getUserID());
-        Optional<EvaluationEntity> checkevaluation = Optional.ofNullable(evaluationRepository.findByEvaluationID(evaluationID));
+        Optional<EvaluationEntity> checkevaluation = evaluationRepository.findByEvaluationID(evaluationID);
         try{
             if (usercheck.isPresent() && checkevaluation.isPresent()) { //유저id & evalutation 게시물 존재하는지
                 return toggleLike(evaluationID,likeyDTO);
