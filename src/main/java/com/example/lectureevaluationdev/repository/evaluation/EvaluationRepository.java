@@ -9,8 +9,13 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface EvaluationRepository extends JpaRepository<EvaluationEntity, Long>, PagingAndSortingRepository<EvaluationEntity,Long> {
+    Optional<EvaluationEntity> findByEvaluationID(long evaluationID);
+
+
     @Query("SELECT e FROM EvaluationEntity e WHERE (:lectureDivide = '전체' OR e.lectureDivide = :lectureDivide) " +
             "AND (LOWER(e.lectureName) LIKE %:search% OR LOWER(e.professorName) LIKE %:search% OR LOWER(e.semesterDivide) LIKE %:search% " +
             "OR LOWER(e.evaluationTitle) LIKE %:search% OR LOWER(e.evaluationContent) LIKE %:search%) " +
@@ -30,4 +35,5 @@ public interface EvaluationRepository extends JpaRepository<EvaluationEntity, Lo
             @Param("search") String search,
             Pageable pageable
     );
+
 }
