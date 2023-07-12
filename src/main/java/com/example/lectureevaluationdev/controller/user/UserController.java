@@ -124,12 +124,12 @@ public class UserController {
 
     @PostMapping("/join")
     @ResponseBody
-    public EvaluationResponse join(@RequestBody Map<String,Object> user) throws Exception {
+    public EvaluationResponse join(@RequestBody UserDTO userDTO) throws Exception {
         UserEntity userInfo = UserEntity.builder()
-                .userID(user.get("userID").toString())
-                .userPassword(user.get("userPassword").toString())
-                .userEmail(user.get("userEmail").toString())
-                .status(true)
+                .userID(userDTO.getUserID())
+                .userPassword(userDTO.getUserPassword())
+                .userEmail(userDTO.getUserEmail())
+                .status(userDTO.isStatus())
                 .build();
 
         EvaluationResponse result = userService.signUp(userInfo);
