@@ -7,27 +7,44 @@ const Header = () => {
 
   return (
     <Wrapper>
-      <Logo onClick={() => navigate("/")}>
-        <LogoImg src={symbol} />
-        <LogoTxt>CUKLION EDU</LogoTxt>
-      </Logo>
+      <Contents>
+        <Logo onClick={() => navigate("/")}>
+          <LogoImg src={symbol} />
+          <LogoTxt>CUKLION EDU</LogoTxt>
+        </Logo>
 
-      <ButtonWrapper>
-        <Button onClick={() => navigate("/login")}>로그인</Button>
-        <Button onClick={() => navigate("/register")}>회원가입</Button>
-      </ButtonWrapper>
+        <Navigation>
+          <ul>
+            <li>
+              <Button onClick={() => navigate("/login")}>로그인</Button>
+            </li>
+            <li>
+              <Button onClick={() => navigate("/register")}>회원가입</Button>
+            </li>
+          </ul>
+        </Navigation>
+      </Contents>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.header`
   background-color: #fcfbfb;
-  //border: 1px solid black;
+  position: fixed;
+  left: 0;
+  top: 0;
   width: 100%;
-  height: 35px;
+  height: 50px;
+`;
+
+const Contents = styled.div`
   display: flex;
+  width: 96%;
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
   align-items: center;
-  padding: 0 20px;
+  justify-content: space-between;
 `;
 
 const Logo = styled.div`
@@ -50,8 +67,15 @@ const LogoTxt = styled.div`
   font-weight: 600;
 `;
 
-const ButtonWrapper = styled.div`
-  margin-left: auto;
+const Navigation = styled.nav`
+  ul {
+    display: flex;
+    list-style: none;
+
+    li + li {
+      margin-left: 30px;
+    }
+  }
 `;
 
 const Button = styled.button`
