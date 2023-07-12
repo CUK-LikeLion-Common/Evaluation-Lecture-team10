@@ -1,6 +1,7 @@
 package com.example.lectureevaluationdev.service.evaluation;
 
 import com.example.lectureevaluationdev.dto.evaluation.EvaluationDTO;
+import com.example.lectureevaluationdev.dto.user.UserDTO;
 import com.example.lectureevaluationdev.entity.evaluation.EvaluationEntity;
 import com.example.lectureevaluationdev.mapper.evaluation.EvaluationMapper;
 import com.example.lectureevaluationdev.primary.EvaluationResponse;
@@ -46,7 +47,7 @@ public class EvaluationService extends ResponseService {
         return null;
     }
 
-    public EvaluationResponse searchEvaluations(int pageNum, String lectureDivide, String searchType, String search) {
+    public EvaluationResponse searchEvaluations(int pageNum, String lectureDivide, String searchType, String search, UserDTO loginUser) {
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
 
         try {
