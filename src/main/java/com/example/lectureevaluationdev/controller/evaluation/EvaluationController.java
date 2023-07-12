@@ -1,6 +1,7 @@
 package com.example.lectureevaluationdev.controller.evaluation;
 
 import com.example.lectureevaluationdev.dto.evaluation.EvaluationDTO;
+import com.example.lectureevaluationdev.dto.user.UserDTO;
 import com.example.lectureevaluationdev.entity.evaluation.EvaluationEntity;
 import com.example.lectureevaluationdev.mapper.evaluation.EvaluationMapper;
 import com.example.lectureevaluationdev.repository.evaluation.EvaluationRepository;
