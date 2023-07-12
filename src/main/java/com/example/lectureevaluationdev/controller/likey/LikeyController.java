@@ -1,6 +1,7 @@
 package com.example.lectureevaluationdev.controller.likey;
 
 import com.example.lectureevaluationdev.dto.likey.LikeyDTO;
+import com.example.lectureevaluationdev.dto.user.UserDTO;
 import com.example.lectureevaluationdev.primary.EvaluationResponse;
 import com.example.lectureevaluationdev.repository.likey.LikeyRepository;
 import com.example.lectureevaluationdev.service.likey.LikeyService;
@@ -26,10 +27,10 @@ public class LikeyController {
 
     @PostMapping("/{EvaluationID}")
     @ResponseBody
-    public EvaluationResponse addLike(HttpServletRequest request, @PathVariable("EvaluationID") long EvaluationID, @RequestBody LikeyDTO likeyDTO) throws Exception{
+    public EvaluationResponse addLike(HttpServletRequest request,HttpSession session, @PathVariable("EvaluationID") long EvaluationID, @RequestBody LikeyDTO likeyDTO) throws Exception{
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
-        HttpSession sessions = request.getSession(); // 기존 세션 가져오기
-        if (sessions == null || sessions.getAttribute("loginID") == null) {
+        UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+        if (loginUser == null) {
             // 로그인되지 않은 경우에 대한 처리
             response.setResponseData("message", "notLoggedIn");
             return response;
