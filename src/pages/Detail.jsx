@@ -1,4 +1,4 @@
-import DetailBox from "../components/Detail/DetialBox";
+import DetailBox from "../components/Detail/DetailBox";
 
 const Detail = () => {
   return (
