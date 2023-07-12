@@ -33,6 +33,7 @@ public class EvaluationController {
         HttpSession sessions = request.getSession(); // 기존 세션 가져오기
 
         if (sessions == null || sessions.getAttribute("loginID") == null) {
+            System.out.println(sessions.getAttribute("loginID")+"세션id");
             // 로그인되지 않은 경우에 대한 처리
             response.setResponseData("message", "notLoggedIn");
             return response;

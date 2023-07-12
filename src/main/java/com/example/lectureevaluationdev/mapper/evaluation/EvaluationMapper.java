@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public interface EvaluationMapper extends GenericMapper<EvaluationDTO, EvaluationEntity> {
     EvaluationMapper INSTANCE = Mappers.getMapper(EvaluationMapper.class);
 
-
-
 //void updateFromDto(EvaluationDTO dto, EvaluationEntity entity);
 
 }
