@@ -1,6 +1,8 @@
 package com.example.lectureevaluationdev.mapper.likey;
 
+import com.example.lectureevaluationdev.dto.evaluation.EvaluationDTO;
 import com.example.lectureevaluationdev.dto.likey.LikeyDTO;
+import com.example.lectureevaluationdev.entity.evaluation.EvaluationEntity;
 import com.example.lectureevaluationdev.entity.likey.LikeyEntity;
 import com.example.lectureevaluationdev.mapper.GenericMapper;
 import org.mapstruct.Mapper;
