@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -107,5 +109,30 @@ public class EvaluationService extends ResponseService {
             System.out.println("글 작성 오류 발생");
         }
         return null;
+    }
+
+    public ResponseEntity<List<EvaluationDTO>> getAllBoards(Pageable pageable, String sortingTag) {
+
+        try{
+
+            Page<EvaluationEntity> results ;
+
+            if (sortingTag != null) {
+                Sort sort = Sort.by(Sort.Direction.ASC, sortingTag);
+                results = evaluationRepository.findAll(PageRequest.of(pageable.getPageNumber(), 10,sort));
+            } else {
+                results = evaluationRepository.findAll(pageable);
+            }
+
+            List<EvaluationDTO> evaluationDTOList = new ArrayList<>();
+            for(EvaluationEntity entity:results){
+                EvaluationDTO evaluationDTO = EvaluationMapper.INSTANCE.toDTO(entity);
+                evaluationDTOList.add(evaluationDTO);
+
+            }
+            return ResponseEntity.ok(evaluationDTOList);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
