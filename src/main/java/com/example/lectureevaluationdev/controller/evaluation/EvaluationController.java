@@ -3,14 +3,12 @@ package com.example.lectureevaluationdev.controller.evaluation;
 import com.example.lectureevaluationdev.dto.evaluation.EvaluationDTO;
 import com.example.lectureevaluationdev.dto.user.UserDTO;
 import com.example.lectureevaluationdev.entity.evaluation.EvaluationEntity;
-import com.example.lectureevaluationdev.mapper.evaluation.EvaluationMapper;
 import com.example.lectureevaluationdev.repository.evaluation.EvaluationRepository;
+import com.example.lectureevaluationdev.repository.user.UserRepository;
 import com.example.lectureevaluationdev.service.evaluation.EvaluationService;
 import com.example.lectureevaluationdev.primary.EvaluationResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Fetch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +19,14 @@ public class EvaluationController {
     private final EvaluationService evaluationService;
     private final EvaluationRepository evaluationRepository;
 
+
+
     @Autowired
-    public EvaluationController(EvaluationService evaluationService, EvaluationRepository evaluationRepository) {
+    public EvaluationController(EvaluationService evaluationService, EvaluationRepository evaluationRepository, UserRepository userRepository) {
         this.evaluationService = evaluationService;
         this.evaluationRepository = evaluationRepository;
-    }
 
+    }
 
     //강의평가 쓰기
     @PostMapping("/write")
@@ -42,7 +42,6 @@ public class EvaluationController {
         EvaluationResponse result = evaluationService.writeEvaluation(evaluationDTO);
         return result;
     }
-
 
     @GetMapping("/search/{pageNum}")
     public EvaluationResponse searchEvaluationBoards(@PathVariable("pageNum") int pageNum,
@@ -69,7 +68,9 @@ public class EvaluationController {
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
 
         System.out.println(loginUser);
-        if (loginUser != null) {
+        System.out.println(evaluationDTO.getUserID());
+        //EvaluationDTO 랑 session에 들어온 ID 가 같은지
+        if (loginUser.getUserID().equals(evaluationDTO.getUserID())) {
             try {
                 EvaluationResponse result = evaluationService.modifyEvaluation(EvaluationID, evaluationDTO);
                 return result;
@@ -90,7 +91,7 @@ public class EvaluationController {
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
 
-        if (loginUser != null) {
+        if (loginUser.getUserID().equals(evaluationDTO.getUserID())) {
             EvaluationResponse result = evaluationService.deleteEvaluation(evaluationID,evaluationDTO);
             return result;
         }

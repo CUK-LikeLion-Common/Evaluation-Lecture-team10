@@ -50,10 +50,10 @@ public class EvaluationDTO {
 
     long evaluationID;
 
-    @JsonProperty("userEmail")
+
     private String userEmail;
 
-    @JsonProperty("userPassword")
+
     private String userPassword;
 
 //    private List<LikeyEntity> likes;
