@@ -59,6 +59,22 @@ public class EvaluationController {
         return evaluationService.getAllBoards(pageable, sortingTag);
     }
 
+
+    //강의평가 개별 조회
+    @GetMapping("/read/{EvaluationID}")
+    @ResponseBody
+    public EvaluationResponse getAllBoards(HttpServletRequest request,HttpSession session,@PathVariable("EvaluationID") long EvaluationID) throws Exception{
+
+        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+        UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+        if (loginUser == null) {
+            // 로그인되지 않은 경우에 대한 처리
+            response.setResponseData("message", "notLoggedIn");
+            return response;
+        }
+        return evaluationService.getOneBoards(EvaluationID);
+    }
+
     private int getLimitCnt(int pageNum) {
         int limit = SHOW_COUNT;
         for(int i = 0; i <= pageNum; i++) {

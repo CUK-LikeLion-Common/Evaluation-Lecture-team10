@@ -9,6 +9,7 @@ import com.example.lectureevaluationdev.primary.ResponseService;
 import com.example.lectureevaluationdev.repository.evaluation.EvaluationRepository;
 import com.example.lectureevaluationdev.repository.user.UserRepository;
 import io.micrometer.common.util.StringUtils;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EvaluationService extends ResponseService {
@@ -135,4 +137,25 @@ public class EvaluationService extends ResponseService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    public EvaluationResponse getOneBoards(long evaluationID) {
+
+        try{
+            Optional<EvaluationEntity> evaluationOptional = evaluationRepository.findById(evaluationID);
+            if (evaluationOptional.isPresent()) {
+                EvaluationEntity evaluationEntity = evaluationOptional.get();
+                EvaluationDTO evaluationDTO = EvaluationMapper.INSTANCE.toDTO(evaluationEntity);
+                return setResponse(200,"message",evaluationDTO);
+            } else {
+                // ID에 해당하는 엔티티가 없는 경우 예외 처리
+                throw new EntityNotFoundException("게시글이 존재하지 않습니다. 게시글 ID :" + evaluationID);
+            }
+        } catch (Exception e) {
+            // 예외 처리
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
