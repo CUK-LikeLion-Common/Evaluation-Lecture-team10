@@ -2,6 +2,7 @@ package com.example.lectureevaluationdev.service.user;
 
 import com.example.lectureevaluationdev.dto.user.UserDTO;
 import com.example.lectureevaluationdev.entity.user.UserEntity;
+import com.example.lectureevaluationdev.mapper.user.UserMapper;
 import com.example.lectureevaluationdev.primary.EvaluationResponse;
 import com.example.lectureevaluationdev.primary.ResponseService;
 import com.example.lectureevaluationdev.repository.user.UserRepository;
@@ -38,9 +39,10 @@ public class UserService extends ResponseService {
                    userDTO.setStatus(true);
                     return userDTO;
                 }else { //로그인 안 되어있던 상태
-//                    membererDTO.setMemberStatus(true);
+//                    UserDTO.setMemberStatus(true);
                     userRepository.setStatusTrue(userEntity.getUserID());
-                   UserDTO dto = UserDTO.toUserDTO(userEntity);
+                    UserDTO dto = UserMapper.INSTANCE.toDTO(userEntity);
+//                    UserDTO dto = UserDTO.toUserDTO(userEntity);
                     return dto;
                 }
             }

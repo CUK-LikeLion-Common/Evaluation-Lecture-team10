@@ -72,18 +72,15 @@ public class UserController {
 
         if (loginUser != null) {
             // 로그인 성공
-            System.out.println(loginUser);
+//            System.out.println(loginUser);
 
             if (loginUser.isStatus()) {
-                System.out.println("이미 로그인했습니다");
                 session.setAttribute("loginUser", loginUser);
                 System.out.println(session.getAttribute("loginUser")+"이미 로그인");
                 response.setResponseData("message", "alreadyLoggedIn");
                 return response;
             } else {
-                System.out.println("로그인 성공");
                 session.setAttribute("loginUser", loginUser);
-                System.out.println(session.getAttribute("loginUser"));
                 System.out.println(session.getAttribute("loginUser")+"로그인 성공");
                 response.setResponseData("message", "LoginSuccess");
                 return response;

@@ -10,6 +10,7 @@ import com.example.lectureevaluationdev.primary.EvaluationResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.Fetch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ public class EvaluationController {
         this.evaluationRepository = evaluationRepository;
     }
 
+
     //강의평가 쓰기
     @PostMapping("/write")
     @ResponseBody
@@ -41,6 +43,7 @@ public class EvaluationController {
         return result;
     }
 
+
     @GetMapping("/search/{pageNum}")
     public EvaluationResponse searchEvaluationBoards(@PathVariable("pageNum") int pageNum,
                                                      @RequestParam("lectureDivide") String lectureDivide,
@@ -48,4 +51,44 @@ public class EvaluationController {
                                                      @RequestParam("search") String search) {
         return evaluationService.searchEvaluations(pageNum, lectureDivide, searchType, search);
     }
+
+    @PatchMapping("/modify/{EvaluationID}")
+    @ResponseBody
+    public EvaluationResponse modifyEvaluation( @PathVariable("EvaluationID") long EvaluationID, @RequestBody EvaluationDTO evaluationDTO,
+                                               HttpSession session) throws Exception {
+        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+
+        System.out.println(loginUser);
+        if (loginUser != null) {
+            try {
+                EvaluationResponse result = evaluationService.modifyEvaluation(EvaluationID, evaluationDTO);
+                return result;
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.setResponseData("error", "evaluation modify Error");
+            }
+        } else {
+            response.setResponseData("message", "notLoggedIn");
+        }
+        return response;
+    }
+
+    @DeleteMapping("/delete/{EvaluationID}")
+    @ResponseBody
+    public EvaluationResponse deleteEvaluation( @PathVariable("EvaluationID") long evaluationID, @RequestBody EvaluationDTO evaluationDTO,
+                                                HttpSession session) throws Exception {
+        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+
+        if (loginUser != null) {
+            EvaluationResponse result = evaluationService.deleteEvaluation(evaluationID,evaluationDTO);
+            return result;
+        }
+        else{response.setResponseData("message", "notLoggedIn");
+            return response;
+        }
+
+    }
+
 }

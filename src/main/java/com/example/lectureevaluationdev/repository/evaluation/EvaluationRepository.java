@@ -4,6 +4,7 @@ import com.example.lectureevaluationdev.entity.evaluation.EvaluationEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -35,5 +36,10 @@ public interface EvaluationRepository extends JpaRepository<EvaluationEntity, Lo
             @Param("search") String search,
             Pageable pageable
     );
+
+
+//    @Modifying
+//    @Query("UPDATE EvaluationEntity e SET e.value = :value WHERE e.evaluation_ID = :evaluationId")
+//    void updateProperty(@Param("evaluationId") long evaluationId, @Param("value") String value);
 
 }
