@@ -102,6 +102,46 @@ public class EvaluationController {
             return response;
         }
     }
+    @PatchMapping("/modify/{EvaluationID}")
+    @ResponseBody
+    public EvaluationResponse modifyEvaluation( @PathVariable("EvaluationID") long EvaluationID, @RequestBody EvaluationDTO evaluationDTO,
+                                                HttpSession session) throws Exception {
+        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+
+        System.out.println(loginUser);
+        System.out.println(evaluationDTO.getUserID());
+        //EvaluationDTO 랑 session에 들어온 ID 가 같은지
+        if (loginUser.getUserID().equals(evaluationDTO.getUserID())) {
+            try {
+                EvaluationResponse result = evaluationService.modifyEvaluation(EvaluationID, evaluationDTO);
+                return result;
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.setResponseData("error", "evaluation modify Error");
+            }
+        } else {
+            response.setResponseData("message", "notLoggedIn");
+        }
+        return response;
+    }
+
+    @DeleteMapping("/delete/{EvaluationID}")
+    @ResponseBody
+    public EvaluationResponse deleteEvaluation( @PathVariable("EvaluationID") long evaluationID, @RequestBody EvaluationDTO evaluationDTO,
+                                                HttpSession session) throws Exception {
+        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+
+        if (loginUser.getUserID().equals(evaluationDTO.getUserID())) {
+            EvaluationResponse result = evaluationService.deleteEvaluation(evaluationID,evaluationDTO);
+            return result;
+        }
+        else{response.setResponseData("message", "notLoggedIn");
+            return response;
+        }
+    }
 
 
-}
+
+    }
