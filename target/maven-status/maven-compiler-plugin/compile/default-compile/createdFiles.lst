@@ -1,0 +1,5 @@
+com\example\lectureevaluationdev\dto\evaluation\EvaluationDTO$EvaluationDTOBuilder.class
+com\example\lectureevaluationdev\dto\likey\LikeyDTO$LikeyDTOBuilder.class
+com\example\lectureevaluationdev\entity\likey\LikeyEntity$LikeyEntityBuilder.class
+com\example\lectureevaluationdev\entity\evaluation\EvaluationEntity$EvaluationEntityBuilder.class
+com\example\lectureevaluationdev\mapper\evaluation\EvaluationMapper.class

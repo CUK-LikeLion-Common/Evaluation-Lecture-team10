@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<input type="text" name="userID" placeholder="아이디">
+<br>
+
+<input type="email" name="userEmail" placeholder="이메일">
+<br>
+<input type="password" name="userPassword" placeholder="비밀번호">
+<br>
+
+<input type="submit" value="로그인" id="loginButton">
+
+<script>
+    const loginButton = document.getElementById('loginButton');
+    loginButton.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        const userID = document.querySelector('input[name="userID"]').value;
+        const userPassword = document.querySelector('input[name="userPassword"]').value;
+        const userEmail= document.querySelector('input[name="userEmail"]').value;
+
+        const formData = {
+            userID: userID,
+            userPassword: userPassword,
+            userEmail : userEmail
+        };
+
+        const jsonData = JSON.stringify(formData);
+        console.log(jsonData); // JSON 데이터 확인
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonData
+        }).then(response => {
+            return response.json();
+        }).then(data => {
+            console.log(data); // 서버에서 받은 응답 데이터 처리
+        }).catch(error => {
+            console.log('에러 발생:', error);
+        });
+    });
+    </script>
+</body>
+</html>
