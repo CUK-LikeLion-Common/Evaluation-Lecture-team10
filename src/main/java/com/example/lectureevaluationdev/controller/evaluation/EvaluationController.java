@@ -48,8 +48,17 @@ public class EvaluationController {
     public EvaluationResponse searchEvaluationBoards(@PathVariable("pageNum") int pageNum,
                                                      @RequestParam("lectureDivide") String lectureDivide,
                                                      @RequestParam("searchType") String searchType,
-                                                     @RequestParam("search") String search) {
-        return evaluationService.searchEvaluations(pageNum, lectureDivide, searchType, search);
+                                                     @RequestParam("search") String search,
+                                                     HttpSession session) {
+        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+
+        if (loginUser != null) {
+            return evaluationService.searchEvaluations(pageNum, lectureDivide, searchType, search, loginUser);
+        } else {
+            EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+            response.setResponseData("message", "사용자가 로그인되어 있지 않습니다.");
+            return response;
+        }
     }
 
     @PatchMapping("/modify/{EvaluationID}")

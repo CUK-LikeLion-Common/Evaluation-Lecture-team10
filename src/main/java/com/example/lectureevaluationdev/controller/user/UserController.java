@@ -143,6 +143,7 @@ public class UserController {
 
         if (loginUser != null && loginUser.getUserID().equals(userID) && loginUser.getUserPassword().equals(password)) {
             EvaluationResponse response = this.userService.delete(loginUser);
+            session.invalidate();
             return ResponseEntity.ok(response);
         } else {
             // 세션에 저장된 사용자와 삭제하려는 사용자가 다를 경우 에러 처리
