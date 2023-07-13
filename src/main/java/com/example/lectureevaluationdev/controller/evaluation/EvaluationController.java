@@ -11,12 +11,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //@RequiredArgsConstructor //Lombok으로 스프링에서 DI(의존성 주입)의 방법 중에 생성자 주입을 임의의 코드없이 자동으로 설정해주는 어노테이션
 @RestController //@RestController 어노테이션은 사용된 클래스의 모든 메서드에 자동으로 JSON 변환을 적용
 @RequestMapping("/evaluation")
 public class EvaluationController {
+    public static final int SHOW_COUNT = 10;
     private final EvaluationService evaluationService;
     private final EvaluationRepository evaluationRepository;
 
@@ -41,6 +47,45 @@ public class EvaluationController {
         return result;
     }
 
+    //강의평가 조회
+    @GetMapping("/read")
+    @ResponseBody
+    public ResponseEntity<List<EvaluationDTO>> getAllBoards(HttpServletRequest request, @PageableDefault(size =10) Pageable pageable, @RequestParam(required = false) String sortingTag) throws Exception{
+        /*
+        int limit = getLimitCnt(pageNum);
+        int offset = limit - SHOW_COUNT;
+        */
+
+        return evaluationService.getAllBoards(pageable, sortingTag);
+    }
+
+
+    //강의평가 개별 조회
+    @GetMapping("/read/{EvaluationID}")
+    @ResponseBody
+    public EvaluationResponse getAllBoards(HttpServletRequest request,HttpSession session,@PathVariable("EvaluationID") long EvaluationID) throws Exception{
+
+        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+        UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+        if (loginUser == null) {
+            // 로그인되지 않은 경우에 대한 처리
+            response.setResponseData("message", "notLoggedIn");
+            return response;
+        }
+        return evaluationService.getOneBoards(EvaluationID);
+    }
+
+    private int getLimitCnt(int pageNum) {
+        int limit = SHOW_COUNT;
+        for(int i = 0; i <= pageNum; i++) {
+            if(i != 0)
+                limit += SHOW_COUNT;
+        }
+
+        return limit;
+    }
+
+
     @GetMapping("/search/{pageNum}")
     public EvaluationResponse searchEvaluationBoards(@PathVariable("pageNum") int pageNum,
                                                      @RequestParam("lectureDivide") String lectureDivide,
@@ -57,4 +102,6 @@ public class EvaluationController {
             return response;
         }
     }
+
+
 }

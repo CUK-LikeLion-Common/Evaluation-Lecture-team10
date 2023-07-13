@@ -3,6 +3,7 @@ package com.example.lectureevaluationdev.mapper.evaluation;
 import com.example.lectureevaluationdev.dto.evaluation.EvaluationDTO;
 import com.example.lectureevaluationdev.entity.evaluation.EvaluationEntity;
 import com.example.lectureevaluationdev.mapper.GenericMapper;
+import com.example.lectureevaluationdev.primary.EvaluationResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import org.mapstruct.Mapper;

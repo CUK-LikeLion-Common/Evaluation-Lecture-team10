@@ -9,15 +9,19 @@ import com.example.lectureevaluationdev.primary.ResponseService;
 import com.example.lectureevaluationdev.repository.evaluation.EvaluationRepository;
 import com.example.lectureevaluationdev.repository.user.UserRepository;
 import io.micrometer.common.util.StringUtils;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EvaluationService extends ResponseService {
@@ -108,4 +112,50 @@ public class EvaluationService extends ResponseService {
         }
         return null;
     }
+
+    public ResponseEntity<List<EvaluationDTO>> getAllBoards(Pageable pageable, String sortingTag) {
+
+        try{
+
+            Page<EvaluationEntity> results ;
+
+            if (sortingTag != null) {
+                Sort sort = Sort.by(Sort.Direction.ASC, sortingTag);
+                results = evaluationRepository.findAll(PageRequest.of(pageable.getPageNumber(), 10,sort));
+            } else {
+                results = evaluationRepository.findAll(pageable);
+            }
+
+            List<EvaluationDTO> evaluationDTOList = new ArrayList<>();
+            for(EvaluationEntity entity:results){
+                EvaluationDTO evaluationDTO = EvaluationMapper.INSTANCE.toDTO(entity);
+                evaluationDTOList.add(evaluationDTO);
+
+            }
+            return ResponseEntity.ok(evaluationDTOList);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    public EvaluationResponse getOneBoards(long evaluationID) {
+
+        try{
+            Optional<EvaluationEntity> evaluationOptional = evaluationRepository.findById(evaluationID);
+            if (evaluationOptional.isPresent()) {
+                EvaluationEntity evaluationEntity = evaluationOptional.get();
+                EvaluationDTO evaluationDTO = EvaluationMapper.INSTANCE.toDTO(evaluationEntity);
+                return setResponse(200,"message",evaluationDTO);
+            } else {
+                // ID에 해당하는 엔티티가 없는 경우 예외 처리
+                throw new EntityNotFoundException("게시글이 존재하지 않습니다. 게시글 ID :" + evaluationID);
+            }
+        } catch (Exception e) {
+            // 예외 처리
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }
