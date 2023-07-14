@@ -20,8 +20,9 @@ const Wrapper = styled.div`
 
 const Banner = styled.div`
   background-color: #0c2e86;
-  width: 1440px;
   height: 420px;
+  margin: auto 0;
+  min-width: 695px;
 `;
 
 const BannerBox = styled.div`
@@ -30,22 +31,32 @@ const BannerBox = styled.div`
   margin-left: auto;
   margin-right: auto;
   grid-gap: 30px;
-  width: 695px;
+  width: 70vw;
   height: 420px;
+  //margin: auto 0;
 `;
 
-const Text = styled.div`
+const TextBox = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
   margin: auto 0;
-  text-align: left;
+  margin-left: 150px;
+`;
+
+const Text = styled.span`
   color: #fff;
   font-size: 32px;
+  text-align: right;
+`;
+
+const ImageBox = styled.div`
+  text-align: left;
+  margin: auto 0;
 `;
 
 const Image = styled.img.attrs({
   src: `${img}`,
-})`
-  margin: auto 0;
-`;
+})``;
 
 const SearchBox = styled.div`
   display: flex;
@@ -112,11 +123,14 @@ const Main = () => {
       <Wrapper>
         <Banner>
           <BannerBox>
-            <Text>
-              가톨릭대 강의 평가, &nbsp; 이제 CUKLION EDU에서 한 눈에
-              찾아보세요!
-            </Text>
-            <Image />
+            <TextBox>
+              <Text>
+                가톨릭대 강의 평가, 이제 CUKLION EDU에서 한 눈에 찾아보세요!
+              </Text>
+            </TextBox>
+            <ImageBox>
+              <Image />
+            </ImageBox>
           </BannerBox>
         </Banner>
         <SearchBox>
