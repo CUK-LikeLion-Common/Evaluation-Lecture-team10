@@ -2,10 +2,12 @@ package com.example.lectureevaluationdev.service.user;
 
 import com.example.lectureevaluationdev.dto.user.UserDTO;
 import com.example.lectureevaluationdev.entity.user.UserEntity;
+import com.example.lectureevaluationdev.mapper.user.UserMapper;
 import com.example.lectureevaluationdev.primary.EvaluationResponse;
 import com.example.lectureevaluationdev.primary.ResponseService;
 import com.example.lectureevaluationdev.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,49 +19,57 @@ public class UserService extends ResponseService {
     private final UserRepository userRepository;
 
 //    @Autowired
-//    public UserService(UserRepository userRepository) {
+//   public UserService(UserRepository userRepository) {
 //        this.userRepository = userRepository;
 //    }
 
-    public UserDTO login(UserDTO userDTO) {
-        /*
-        1.회원이 입력한 아이디로 DB에서 조회
-        2.DB에서 조회한 비밀번호와 사용자가 입력한 비밀번호 맞는지 확인
-         */
-        Optional<UserEntity> byUserId = userRepository.findByUserID(userDTO.getUserID());
+    public EvaluationResponse  login(UserDTO userDTO) {
+            try{
+            Optional<UserEntity> userExist = userRepository.findByUserID(userDTO.getUserID());
 
-        if (byUserId.isPresent()) {
-            //해당 이메일을 가진 회원 정보가 있다
-            UserEntity userEntity = byUserId.get();
-            if (userEntity.getUserPassword().equals(userDTO.getUserPassword()) ){
-                //비밀번호 일치 -> dto 리턴
-                if(userEntity.getStatus()){
-                    //만약에 Enti.y status 가 1이면 -> 이미 로그인된 상태
-                   userDTO.setStatus(true);
-                    return userDTO;
-                }else { //로그인 안 되어있던 상태
-//                    membererDTO.setMemberStatus(true);
-                    userRepository.setStatusTrue(userEntity.getUserID());
-                   UserDTO dto = UserDTO.toUserDTO(userEntity);
-                    return dto;
+            if(userExist.isPresent()) {
+                //해당 이메일을 가진 회원 정보가 있다
+                UserEntity userEntity = userExist.get();
+                if (userEntity.getUserPassword().equals(userDTO.getUserPassword()) && userEntity.getUserEmail().equals(userDTO.getUserEmail()) ) {
+                    //비밀번호 일치 -> dto 리턴
+                    if (userEntity.getStatus()) {
+                        userDTO.setStatus(true);
+                        return setResponse(409, "message", "이미 로그인 되었습니다");
+                    } else {
+                        userRepository.setStatusTrue(userEntity.getUserID());
+                        UserDTO dto = UserMapper.INSTANCE.toDTO(userEntity);
+//                        UserDTO dto = UserDTO.toUserDTO(userEntity);
+                        return setResponse(200,"message","로그인 완료");
+                    }
+                }else{
+                    return setResponse(400,"message","회원정보가 옳지 않습니다");
                 }
+            } else {
+                return setResponse(404,"message","존재하지 않는 회원입니다");
             }
-            //비밀번호 불일치
-            return null;
-        } else {
-            //조회 결과 없음
-            return null;
+        }catch (Exception e){
+                e.printStackTrace();
+            }
+        return null;
+    }
+
+    public EvaluationResponse logout(UserDTO userDTO) throws  Exception {
+        Optional<UserEntity> userExist = userRepository.findByUserID(userDTO.getUserID());
+        try {
+            if (userExist.isPresent()) {
+                UserEntity userEntity = userExist.get();
+                userRepository.setStatusFalse(userEntity.getUserID());
+                userRepository.save(userEntity); // 변경된 상태를 저장
+                return setResponse(200,"message","로그아웃 성공");
+            } else {
+                return setResponse(404, "message", "존재하지 않는 아이디입니다.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return setResponse(400, "message", "로그아웃에 실패하셨습니다. 다시 시도해 주세요.");
         }
     }
 
-    public void logout(UserDTO memberDTO){
-        Optional<UserEntity> byMemberId = userRepository.findByUserID(memberDTO.getUserID());
-        if (byMemberId.isPresent()){
-           UserEntity userEntity = byMemberId.get();
-            userRepository.setStatusFalse(userEntity.getUserID());
-            userRepository.save(userEntity); // 변경된 상태를 저장
-        }
-    }
 
     public EvaluationResponse signUp(UserEntity userInfo) {
         try {
