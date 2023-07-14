@@ -37,61 +37,23 @@ public class UserController {
         return "login";
     }
 
-    /*@PostMapping("/login")
-    @ResponseBody
-    public EvaluationResponse login(@RequestBody UserDTO userDTO, HttpSession session) {
-       EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
-        UserDTO loginUser = userService.login(userDTO);
 
-        if (loginUser != null) {
-            //로그인 성공
-            System.out.println(loginUser);
-            if(loginUser.isStatus()) {
-                System.out.println("이미 로그인했습니다");
-                session.setAttribute("loginID", loginUser.getUserID());
-                System.out.println(session.getAttribute("loginID"));
-                response.setResponseData("message", "alreadyLoggedIn");
-                return response;
-            }else{
-                System.out.println("로그인 성공");
-                session.setAttribute("loginID", loginUser.getUserID());
-                response.setResponseData("message", "LoginSuccess");
-                return response;
-            }
-        } else {
-            response.setResponseData("message", "loginFail");
-            return response;
-        }
-    }*/
 
     @PostMapping("/login")
     @ResponseBody
-    public EvaluationResponse login(@RequestBody UserDTO userDTO, HttpSession session) {
-        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
-        UserDTO loginUser = userService.login(userDTO);
+    public EvaluationResponse login(@RequestBody UserDTO userDTO, HttpSession session) throws Exception{
+//        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
+        EvaluationResponse result = userService.login(userDTO);
 
-        if (loginUser != null) {
-            // 로그인 성공
-            System.out.println(loginUser);
-
-            if (loginUser.isStatus()) {
-                System.out.println("이미 로그인했습니다");
-                session.setAttribute("loginUser", loginUser);
-                System.out.println(session.getAttribute("loginUser")+"이미 로그인");
-                response.setResponseData("message", "alreadyLoggedIn");
-                return response;
-            } else {
-                System.out.println("로그인 성공");
-                session.setAttribute("loginUser", loginUser);
-                System.out.println(session.getAttribute("loginUser"));
-                System.out.println(session.getAttribute("loginUser")+"로그인 성공");
-                response.setResponseData("message", "LoginSuccess");
-                return response;
-            }
-        } else {
-            response.setResponseData("message", "loginFail");
-            return response;
+        if(userDTO != null ){
+            session.setAttribute("loginUser", userDTO);
+            System.out.println("로그인 User >> " + session.getAttribute("loginUser"));
+        }else{
+            EvaluationResponse errorResponse = responseService.setResponse(403, "message", "로그인 실패");
+            return errorResponse;
         }
+        return result;
+
     }
 
     @GetMapping("/logout")
@@ -104,23 +66,27 @@ public class UserController {
     public EvaluationResponse logout(@RequestBody UserDTO userDTO,HttpSession session) throws Exception {
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
 
-        UserDTO loginUser = (UserDTO)session.getAttribute("loginUser");
+        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
         System.out.println("Login User: " + loginUser);
 //      String requestUserID = userDTO.getUserID();
 
-            if ( loginUser != null) {
-                userDTO.setUserID( loginUser.getUserID());
-                userService.logout(userDTO);
-                session.invalidate();
-                response.setResponseData("message", "logOut");
+        if (loginUser != null) {
+//                userDTO.setUserID( loginUser.getUserID());
+            if (userDTO.getUserID().equals(loginUser.getUserID()) && userDTO.getUserEmail().equals(loginUser.getUserEmail())
+                    && userDTO.getUserEmail().equals(loginUser.getUserEmail())) {
+                EvaluationResponse result = userService.logout(userDTO);
+                session.invalidate(); //정말 로그아웃 되었으면 session 에서 나가게 만들어야해얗
+                return result;
+            }else{
+                response.setResponseData("message","회원정보가 옳지 않습니다");
                 return response;
             }
-
-                response.setResponseData("message", "notLoggedIn");
-
-        return response;
-
+        } else {
+            response.setResponseData("message", "notLoggedIn");
+            return response;
+        }
     }
+
 
     @PostMapping("/join")
     @ResponseBody
