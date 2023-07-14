@@ -1,6 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Section = styled.section`
   background-color: #ffffff; /* 배경색 설정 */
@@ -25,12 +26,14 @@ const Header = styled.header`
   padding-top: 50px; /* 헤더 위쪽 여백 추가 */
 `;
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
   position: absolute; /* 내부 컨텐츠의 위치 설정을 위해 position 사용 */
   top: 50%; /* 상단 여백을 50%로 설정하여 수직 중앙 정렬 */
   left: 50%; /* 좌측 여백을 50%로 설정하여 수평 중앙 정렬 */
-  transform: translate(-50%, -50%); /* 좌측과 상단으로 50%씩 이동하여 정확한 가운데 정렬 */
-
+  transform: translate(
+    -50%,
+    -50%
+  ); /* 좌측과 상단으로 50%씩 이동하여 정확한 가운데 정렬 */
 `;
 
 const Label = styled.label`
@@ -42,7 +45,6 @@ const Label = styled.label`
   font-size: 20px; /* 폰트 크기 설정 */
   letter-spacing: 0; /* 글자 간격 설정 */
   margin-bottom: 10px; /* 버튼과 하단 문구 사이에 간격 추가 */
-
 `;
 
 const Input = styled.input`
@@ -64,27 +66,74 @@ const Button = styled.button`
   letter-spacing: 0; /* 글자 간격 설정 */
   margin-bottom: 30px; /* 하단 여백 설정 */
   margin-top: 30px; /* 상단 여백 설정 */
-  
 `;
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    userID: "",
+    userPassword: "",
+    userEmail: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post("/join", formData)
+      .then((response) => {
+        console.log(response.data);
+        alert("회원가입 성공");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("회원가입 실패");
+      });
+  };
+
   return (
     <Section>
       <Header>
         <h1>회원가입</h1> {/* 헤더 제목 */}
       </Header>
-      <FormContainer>
+      <FormContainer onSubmit={handleSubmit}>
+        <Label htmlFor="userEmail">이메일</Label> {/* 아이디 라벨 */}
+        <Input
+          type="text"
+          id="useremail"
+          name="userEmail"
+          value={formData.userEmail}
+          onChange={handleChange}
+        />{" "}
+        {/* 이메일 입력 필드 */}
         <Label htmlFor="username">아이디</Label> {/* 아이디 라벨 */}
-        <Input type="text" id="username" /> {/* 아이디 입력 필드 */}
-
+        <Input
+          type="text"
+          id="username"
+          name="userID"
+          value={formData.userID}
+          onChange={handleChange}
+        />{" "}
+        {/* 아이디 입력 필드 */}
         <Label htmlFor="password">비밀번호</Label> {/* 비밀번호 라벨 */}
-        <Input type="password" id="password" /> {/* 비밀번호 입력 필드 */}
-
-        <Label htmlFor="password-confirm">비밀번호 확인</Label> {/* 비밀번호 확인 라벨 */}
-        <Input type="password" id="password-confirm" /> {/* 비밀번호 확인 입력 필드 */}
-
-        <Button >회원가입</Button> {/* 로그인 버튼 */}
-
+        <Input
+          type="password"
+          id="password"
+          name="userPassword"
+          value={formData.userPassword}
+          onChange={handleChange}
+        />{" "}
+        {/* 비밀번호 입력 필드 */}
+        <Label htmlFor="password-confirm">비밀번호 확인</Label>{" "}
+        {/* 비밀번호 확인 라벨 */}
+        <Input type="password" id="password-confirm" />{" "}
+        {/* 비밀번호 확인 입력 필드 */}
+        <Button type="submit">회원가입</Button> {/* 로그인 버튼 */}
       </FormContainer>
     </Section>
   );
