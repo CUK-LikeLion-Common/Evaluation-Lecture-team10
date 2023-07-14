@@ -43,6 +43,7 @@ public class EvaluationController {
             response.setResponseData("message", "notLoggedIn");
             return response;
         }
+        evaluationDTO.setUserID(loginUser.getUserID());
         EvaluationResponse result = evaluationService.writeEvaluation(evaluationDTO);
         return result;
     }
