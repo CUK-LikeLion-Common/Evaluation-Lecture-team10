@@ -40,12 +40,12 @@ export const Wrapper = styled.div`
   text-align: center;
   display: flex;
   flex-direction: column;
-  //align-items: center;
   padding: 30px;
+  width: 100%;
   max-width: fit-content;
   margin: 0 auto;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 70px;
+  margin-bottom: 50px;
 `;
 
 export const Label = styled.div`
