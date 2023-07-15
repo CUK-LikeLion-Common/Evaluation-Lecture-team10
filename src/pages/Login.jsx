@@ -81,7 +81,6 @@ const Login = () => {
   const [formData, setFormData] = useState({
     userID: "",
     userPassword: "",
-    userEmail: "",
   });
 
   const [userData, setUserData] = useState(null); // 로그인한 사용자 정보 저장
@@ -96,7 +95,6 @@ const Login = () => {
     const requestData = {
       userID: formData.userID,
       userPassword: formData.userPassword,
-      userEmail: formData.userEmail,
     };
 
     axios
@@ -104,17 +102,6 @@ const Login = () => {
       .then((response) => {
         console.log(response.data);
         alert("로그인 성공");
-
-        // 로그인한 사용자 정보 요청
-        // axios
-        //   .get("/user")
-        //   .then((response) => {
-        //     setUserData(response.data);
-        //   })
-        //   .catch((error) => {
-        //     console.error(error);
-        //     alert("사용자 정보를 가져오는데 실패했습니다.");
-        //   });
 
         navigate("/");
       })
@@ -148,15 +135,6 @@ const Login = () => {
           onChange={handleChange}
         />{" "}
         {/* 비밀번호 입력 필드 */}
-        <Label htmlFor="email">이메일</Label> {/* 비밀번호 라벨 */}
-        <Input
-          type="text"
-          id="userEmail"
-          name="userEmail"
-          value={formData.userEmail}
-          onChange={handleChange}
-        />{" "}
-        {/* 이메일 입력 필드 */}
         <Button type="submit">로그인</Button> {/* 로그인 버튼 */}
         <p style={{ marginTop: "10px", textAlign: "center" }}>
           아직 회원이 아니라면? <SignupLink to="/register">회원가입</SignupLink>{" "}
