@@ -47,11 +47,34 @@ const DetailBox = () => {
       });
   };
 
+  // 글 삭제
+  const handleDelete = () => {
+    const data = {
+      userID: "",
+      userPassword: "",
+    };
+
+    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+
+    if (confirmed) {
+      axios
+        .delete(`/evaluation/delete/${evaluationID}`, { data })
+        .then(() => {
+          alert("삭제되었습니다.");
+          navigate("/");
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("삭제에 실패했습니다.");
+        });
+    }
+  };
+
   return (
     <Wrapper>
       <ButtonContainer>
         <Button>수정</Button>
-        <Button>삭제</Button>
+        <Button onClick={handleDelete}>삭제</Button>
       </ButtonContainer>
 
       <div>
