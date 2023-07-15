@@ -72,68 +72,71 @@ const DetailBox = () => {
 
   return (
     <Wrapper>
-      <ButtonContainer>
-        <Button>수정</Button>
-        <Button onClick={handleDelete}>삭제</Button>
-      </ButtonContainer>
+      <FlexRow>
+        <Label>강의</Label>
+        <Value>{evaluation.result.message.lectureName}</Value>
+      </FlexRow>
 
-      <div>
-        <Label>{evaluation.result.message.lectureName}</Label>
-        <ProfessorWrapper>
-          {evaluation.result.message.professorName}
-        </ProfessorWrapper>
-      </div>
+      <FlexRow>
+        <Label>교수</Label>
+        <Value>{evaluation.result.message.professorName}</Value>
+      </FlexRow>
 
-      <div>
-        <div>수강 연도</div>
-        <div>{evaluation.result.message.lectureYear}</div>
-      </div>
+      <FlexRow>
+        <Label>수강 연도</Label>
+        <Value>{evaluation.result.message.lectureYear}</Value>
+      </FlexRow>
 
-      <div>
-        <div>학기</div>
-        <div>{evaluation.result.message.semesterDivide}</div>
-      </div>
+      <FlexRow>
+        <Label>학기</Label>
+        <Value>{evaluation.result.message.semesterDivide}</Value>
+      </FlexRow>
 
-      <div>
-        <div>강의 구분</div>
-        <div>{evaluation.result.message.lectureDivide}</div>
-      </div>
+      <FlexRow>
+        <Label>강의 구분</Label>
+        <Value>{evaluation.result.message.lectureDivide}</Value>
+      </FlexRow>
 
-      <div>
-        <div>평가 글 제목</div>
-        <div>{evaluation.result.message.evaluationTitle}</div>
-      </div>
+      <FlexRow>
+        <Label>제목</Label>
+        <Value>{evaluation.result.message.evaluationTitle}</Value>
+      </FlexRow>
 
-      <div>
-        <div>내용</div>
-        <div>{evaluation.result.message.evaluationContent}</div>
-      </div>
+      <FlexRow>
+        <Label>내용</Label>
+        <Value>{evaluation.result.message.evaluationContent}</Value>
+      </FlexRow>
 
-      <div>
-        <div>총 점수</div>
-        <div>{evaluation.result.message.totalScore}</div>
-      </div>
+      <FlexRow>
+        <Label>총 점수</Label>
+        <Value>{evaluation.result.message.totalScore}</Value>
+      </FlexRow>
 
-      <div>
-        <div>성적</div>
-        <div>{evaluation.result.message.creditScore}</div>
-      </div>
+      <FlexRow>
+        <Label>성적</Label>
+        <Value>{evaluation.result.message.creditScore}</Value>
+      </FlexRow>
 
-      <div>
-        <div>강의가 어느정도 널널한가?</div>
-        <div>{evaluation.result.message.comfortableScrore}</div>
-      </div>
+      <FlexRow>
+        <Label>편의성</Label>
+        <Value>{evaluation.result.message.comfortableScore}</Value>
+      </FlexRow>
 
-      <div>
-        <div>평가 점수</div>
-        <div>{evaluation.result.message.lectureScore}</div>
-      </div>
+      <FlexRow>
+        <Label>평가 점수</Label>
+        <Value>{evaluation.result.message.lectureScore}</Value>
+      </FlexRow>
 
       <ReviewWrapper>
         <AiTwotoneLike size="20" color="#b9ccfa" />
         <ReviewText onClick={handleLike}>추천</ReviewText>
         <LikeCount>{likeCount}</LikeCount>
       </ReviewWrapper>
+
+      <ButtonContainer>
+        <Button>수정</Button>
+        <Button onClick={handleDelete}>삭제</Button>
+      </ButtonContainer>
     </Wrapper>
   );
 };
@@ -145,8 +148,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 30px;
-  width: 100%;
-  max-width: fit-content;
+  width: 600px;
   margin: 0 auto;
   margin-top: 100px;
   margin-bottom: 70px;
@@ -154,8 +156,8 @@ const Wrapper = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
-  margin-left: 10px;
+  justify-content: center;
+  margin-top: 15px;
 `;
 
 export const Button = styled.div`
@@ -173,12 +175,17 @@ const Label = styled.div`
   font-size: 18px;
   font-weight: 600;
   margin-right: 40px;
+  width: 150px;
 `;
 
-const ProfessorWrapper = styled.div`
-  text-align: left;
-  margin-bottom: 20px;
-  font-size: 16px;
+const Value = styled.div`
+  width: 400px;
+`;
+
+const FlexRow = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
 `;
 
 const ReviewWrapper = styled.div`
