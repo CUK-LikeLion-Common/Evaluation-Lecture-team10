@@ -95,7 +95,6 @@ public class UserController {
                 .userID(userDTO.getUserID())
                 .userPassword(userDTO.getUserPassword())
                 .userEmail(userDTO.getUserEmail())
-                .status(userDTO.isStatus())
                 .build();
 
         EvaluationResponse result = userService.signUp(userInfo);
