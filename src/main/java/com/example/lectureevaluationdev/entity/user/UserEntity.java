@@ -1,6 +1,5 @@
 package com.example.lectureevaluationdev.entity.user;
 
-import com.example.lectureevaluationdev.dto.user.UserDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,8 +27,6 @@ public class UserEntity {
     @Column(name="user_email")
     private String userEmail;
 
-    @Column(name="status")
-    private Boolean status;
     /*
     @Column(name="userEmailHash")
     private String userEmailHash;
@@ -50,12 +47,5 @@ public class UserEntity {
         return userEmail;
     }
 
-    public static UserEntity toUserEntity(UserDTO userDTO){
-        UserEntity userEntity = new UserEntity();
-        userEntity.setUserID(userDTO.getUserID());
-        userEntity.setUserEmail(userDTO.getUserEmail());
-        userEntity.setUserPassword(userDTO.getUserPassword());
-        userEntity.setStatus(userDTO.isStatus());
-        return userEntity;
-    }
+
 }

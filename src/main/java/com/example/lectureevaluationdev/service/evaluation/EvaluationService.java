@@ -154,7 +154,7 @@ public class EvaluationService extends ResponseService {
         if (evaluationentity.isPresent() && userEntityOptional.isPresent()) {
             EvaluationEntity evaluationEntity1 = evaluationentity.get();
             UserEntity userEntity = userEntityOptional.get();
-            if (userEntity.getUserEmail().equals(evaluationDTO.getUserEmail()) && userEntity.getUserPassword().equals(evaluationDTO.getUserPassword())) {
+            if ( userEntity.getUserPassword().equals(evaluationDTO.getUserPassword())) {
                 try {
                     EvaluationEntity evaluationEntity2 = EvaluationMapper.INSTANCE.toEntity(evaluationDTO);
                     System.out.println(evaluationEntity1);
@@ -225,9 +225,10 @@ public class EvaluationService extends ResponseService {
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
         Optional<EvaluationEntity> evaluationentity = this.evaluationRepository.findByEvaluationID(evaluationID);
         Optional<UserEntity> userEntityOptional = this.userRepository.findByUserID(evaluationDTO.getUserID());
+
         if (evaluationentity.isPresent() && userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
-            if (userEntity.getUserEmail().equals(evaluationDTO.getUserEmail()) && userEntity.getUserPassword().equals(evaluationDTO.getUserPassword())) {
+            if ( userEntity.getUserPassword().equals(evaluationDTO.getUserPassword())) {
                 try {
                     this.evaluationRepository.deleteById(evaluationID);
                     return this.setResponse(200, "success", "삭제 성공");

@@ -30,17 +30,11 @@ public class UserService extends ResponseService {
             if(userExist.isPresent()) {
                 //해당 이메일을 가진 회원 정보가 있다
                 UserEntity userEntity = userExist.get();
-                if (userEntity.getUserPassword().equals(userDTO.getUserPassword()) && userEntity.getUserEmail().equals(userDTO.getUserEmail()) ) {
+                if (userEntity.getUserPassword().equals(userDTO.getUserPassword())) {
                     //비밀번호 일치 -> dto 리턴
-                    if (userEntity.getStatus()) {
-                        userDTO.setStatus(true);
-                        return setResponse(409, "message", "이미 로그인 되었습니다");
-                    } else {
-                        userRepository.setStatusTrue(userEntity.getUserID());
                         UserDTO dto = UserMapper.INSTANCE.toDTO(userEntity);
-//                        UserDTO dto = UserDTO.toUserDTO(userEntity);
-                        return setResponse(200,"message","로그인 완료");
-                    }
+                        return setResponse(200,"message",userDTO);
+
                 }else{
                     return setResponse(400,"message","회원정보가 옳지 않습니다");
                 }
@@ -58,7 +52,7 @@ public class UserService extends ResponseService {
         try {
             if (userExist.isPresent()) {
                 UserEntity userEntity = userExist.get();
-                userRepository.setStatusFalse(userEntity.getUserID());
+
                 userRepository.save(userEntity); // 변경된 상태를 저장
                 return setResponse(200,"message","로그아웃 성공");
             } else {
