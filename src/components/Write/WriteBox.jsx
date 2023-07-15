@@ -55,173 +55,175 @@ const WriteBox = () => {
 
   return (
     <Wrapper onSubmit={handleSubmit}>
-      <div>
-        <label>강의명</label>
-        <input
+      <TextAreaWrapper>
+        <Label>강의명</Label>
+        <Input
           type="text"
           name="lectureName"
           value={formData.lectureName}
           onChange={handleChange}
           placeholder="강의명을 입력하세요"
         />
-      </div>
+      </TextAreaWrapper>
 
-      <div>
-        <label>교수</label>
-        <input
+      <TextAreaWrapper>
+        <Label>교수</Label>
+        <Input
           type="text"
           name="professorName"
           value={formData.professorName}
           onChange={handleChange}
           placeholder="교수명을 입력하세요"
         />
-      </div>
+      </TextAreaWrapper>
 
       <div>
-        <label>강의 수강 연도</label>
-        <select
+        <Label>강의 수강 연도</Label>
+        <Select
           name="lectureYear"
           value={formData.lectureYear}
           onChange={handleChange}
         >
-          <option value="">선택</option>
-          <option value="2020">2020</option>
-          <option value="2021">2021</option>
-          <option value="2022">2022</option>
-          <option value="2023">2023</option>
-        </select>
+          <Option value="">-- 선택 --</Option>
+          <Option value="2020">2020</Option>
+          <Option value="2021">2021</Option>
+          <Option value="2022">2022</Option>
+          <Option value="2023">2023</Option>
+        </Select>
       </div>
 
       <div>
-        <label>학기 구분</label>
-        <select
+        <Label>학기 구분</Label>
+        <Select
           name="semesterDivide"
           value={formData.semesterDivide}
           onChange={handleChange}
         >
-          <option value="">선택</option>
-          <option value="1학기">1학기</option>
-          <option value="여름 계절학기">여름 계절학기</option>
-          <option value="2학기">2학기</option>
-          <option value="겨울 계절학기">겨울 계절학기</option>
-        </select>
+          <Option value="">-- 선택 --</Option>
+          <Option value="1학기">1학기</Option>
+          <Option value="여름 계절학기">여름 계절학기</Option>
+          <Option value="2학기">2학기</Option>
+          <Option value="겨울 계절학기">겨울 계절학기</Option>
+        </Select>
       </div>
 
       <div>
-        <label>강의 구분</label>
-        <select
+        <Label>강의 구분</Label>
+        <Select
           name="lectureDivide"
           value={formData.lectureDivide}
           onChange={handleChange}
         >
-          <option value="">선택</option>
-          <option value="전공">전공</option>
-          <option value="교양">교양</option>
-          <option value="기타">기타</option>
-        </select>
+          <Option value="">-- 선택 --</Option>
+          <Option value="전공">전공</Option>
+          <Option value="교양">교양</Option>
+          <Option value="기타">기타</Option>
+        </Select>
       </div>
 
-      <div>
-        <label>평가 제목</label>
-        <input
+      <TextAreaWrapper>
+        <Label>평가 제목</Label>
+        <Input
           type="text"
           name="evaluationTitle"
           value={formData.evaluationTitle}
           onChange={handleChange}
           placeholder="제목을 입력하세요"
         />
-      </div>
+      </TextAreaWrapper>
 
-      <div>
-        <label>평가 내용</label>
-        <textarea
+      <TextAreaWrapper>
+        <Label>평가 내용</Label>
+        <TextArea
           name="evaluationContent"
           value={formData.evaluationContent}
           onChange={handleChange}
-        ></textarea>
-      </div>
+        ></TextArea>
+      </TextAreaWrapper>
 
       <div>
-        <label>총점</label>
-        <select
+        <Label>총점</Label>
+        <Select
           name="totalScore"
           value={formData.totalScore}
           onChange={handleChange}
         >
-          <option value="">-- 선택 --</option>
-          <option value="A+">A+</option>
-          <option value="A">A</option>
-          <option value="B+">B+</option>
-          <option value="B">B</option>
-          <option value="C+">C+</option>
-          <option value="C">C</option>
-          <option value="D+">D+</option>
-          <option value="D">D</option>
-          <option value="F">F</option>
-        </select>
+          <Option value="">-- 선택 --</Option>
+          <Option value="A+">A+</Option>
+          <Option value="A">A</Option>
+          <Option value="B+">B+</Option>
+          <Option value="B">B</Option>
+          <Option value="C+">C+</Option>
+          <Option value="C">C</Option>
+          <Option value="D+">D+</Option>
+          <Option value="D">D</Option>
+          <Option value="F">F</Option>
+        </Select>
       </div>
 
       <div>
-        <label>학점</label>
-        <select
+        <Label>학점</Label>
+        <Select
           name="creditScore"
           value={formData.creditScore}
           onChange={handleChange}
         >
-          <option value="">-- 선택 --</option>
-          <option value="A+">A+</option>
-          <option value="A">A</option>
-          <option value="B+">B+</option>
-          <option value="B">B</option>
-          <option value="C+">C+</option>
-          <option value="C">C</option>
-          <option value="D+">D+</option>
-          <option value="D">D</option>
-          <option value="F">F</option>
-        </select>
+          <Option value="">-- 선택 --</Option>
+          <Option value="A+">A+</Option>
+          <Option value="A">A</Option>
+          <Option value="B+">B+</Option>
+          <Option value="B">B</Option>
+          <Option value="C+">C+</Option>
+          <Option value="C">C</Option>
+          <Option value="D+">D+</Option>
+          <Option value="D">D</Option>
+          <Option value="F">F</Option>
+        </Select>
       </div>
 
       <div>
-        <label>편의성 (강의가 널널한가?)</label>
-        <select
+        <Label>편의성</Label>
+        <Select
           name="comfortableScore"
           value={formData.comfortableScore}
           onChange={handleChange}
         >
-          <option value="">-- 선택 --</option>
-          <option value="A+">A+</option>
-          <option value="A">A</option>
-          <option value="B+">B+</option>
-          <option value="B">B</option>
-          <option value="C+">C+</option>
-          <option value="C">C</option>
-          <option value="D+">D+</option>
-          <option value="D">D</option>
-          <option value="F">F</option>
-        </select>
+          <Option value="">-- 선택 --</Option>
+          <Option value="A+">A+</Option>
+          <Option value="A">A</Option>
+          <Option value="B+">B+</Option>
+          <Option value="B">B</Option>
+          <Option value="C+">C+</Option>
+          <Option value="C">C</Option>
+          <Option value="D+">D+</Option>
+          <Option value="D">D</Option>
+          <Option value="F">F</Option>
+        </Select>
       </div>
 
       <div>
-        <label>강의 평가 점수</label>
-        <select
+        <Label>강의 평가 점수</Label>
+        <Select
           name="lectureScore"
           value={formData.lectureScore}
           onChange={handleChange}
         >
-          <option value="">-- 선택 --</option>
-          <option value="A+">A+</option>
-          <option value="A">A</option>
-          <option value="B+">B+</option>
-          <option value="B">B</option>
-          <option value="C+">C+</option>
-          <option value="C">C</option>
-          <option value="D+">D+</option>
-          <option value="D">D</option>
-          <option value="F">F</option>
-        </select>
+          <Option value="">-- 선택 --</Option>
+          <Option value="A+">A+</Option>
+          <Option value="A">A</Option>
+          <Option value="B+">B+</Option>
+          <Option value="B">B</Option>
+          <Option value="C+">C+</Option>
+          <Option value="C">C</Option>
+          <Option value="D+">D+</Option>
+          <Option value="D">D</Option>
+          <Option value="F">F</Option>
+        </Select>
       </div>
 
-      <button type="submit">등록</button>
+      <ButtonWrapper>
+        <Button type="submit">등록</Button>
+      </ButtonWrapper>
     </Wrapper>
   );
 };
@@ -231,12 +233,71 @@ const Wrapper = styled.form`
   text-align: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 30px;
   width: 100%;
   max-width: fit-content;
   margin: 0 auto;
-  margin-top: 70px;
-  margin-bottom: 50px;
+  margin-top: 100px;
+  margin-bottom: 70px;
+`;
+
+const Label = styled.label`
+  margin-bottom: 10px;
+  font-size: 14px;
+  margin-right: 10px;
+`;
+
+const Input = styled.input`
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 20px;
+`;
+
+const Select = styled.select`
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 20px;
+`;
+
+const Option = styled.Option`
+  width: 100%;
+  &:hover {
+    background-color: #92b0fc;
+  }
+`;
+
+const TextArea = styled.textarea`
+  width: 300px;
+  height: 100px;
+  padding: 10px;
+  margin-bottom: 20px;
+`;
+
+const TextAreaWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  background-color: #011445;
+  color: white;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #02298d;
+    transform: scale(1.05);
+  }
 `;
 
 export default WriteBox;
