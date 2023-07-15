@@ -2,11 +2,12 @@ import styled from "styled-components";
 import img from "../img/main_evaluation_image.png";
 import { FiSearch } from "react-icons/fi";
 import LikeBox from "../components/Main/LikeBox";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const ARRAY = [0, 1, 2, 3];
 
-const lectures = ARRAY.map((array) => <LikeBox />);
+//const lectures = ARRAY.map((array) => <LikeBox />);
 
 const Wrapper = styled.div`
   text-align: center;
@@ -108,6 +109,7 @@ const LikeTitle = styled.select`
   text-align: left;
   font-size: 15px;
   float: left;
+  margin-right: 10px;
 `;
 
 const LikeContainer = styled.div`
@@ -116,8 +118,17 @@ const LikeContainer = styled.div`
 `;
 
 const Main = () => {
-  const [selected, setSelected] = useState("popular");
-  const onChange = (event) => setSelected(event.target.value);
+  useEffect(() => {
+    axios
+      .get("/evaluation/read")
+      .then((response) => setEvaluation(response.data.reverse()));
+  }, []);
+  const [evaluations, setEvaluation] = useState([]);
+  const [order, setOrder] = useState("최신순");
+  const [divide, setDivide] = useState("전체");
+  const onChangeOrder = (event) => setOrder(event.target.value);
+  const onChangeDivide = (event) => setDivide(event.target.value);
+  console.log(evaluations);
   return (
     <>
       <Wrapper>
@@ -147,12 +158,33 @@ const Main = () => {
                 <SearchSvg />
               </label>
             </SearchInputBox>
-            <LikeTitle onChange={(event) => onChange(event)} name="order">
-              <option value="popular">추천 많은 순</option>
-              <option value="latest">최신순</option>
+            <LikeTitle onChange={(event) => onChangeOrder(event)} name="order">
+              <option value="최신순">최신순</option>
+              <option value="추천순">추천 많은 순</option>
+            </LikeTitle>
+            <LikeTitle onChange={(event) => onChangeDivide(event)} name="order">
+              <option value="전체">전체</option>
+              <option value="전공">전공</option>
+              <option value="교양">교양</option>
+              <option value="기타">기타</option>
             </LikeTitle>
           </form>
-          <LikeContainer>{lectures}</LikeContainer>
+          <LikeContainer>
+            {evaluations
+              .reverse()
+              .slice(0, 4)
+              .map((evaluation) => (
+                <LikeBox
+                  key={evaluation.evaluationID}
+                  evaluationID={evaluation.evaluationID}
+                  lectureName={evaluation.lectureName}
+                  professorName={evaluation.professorName}
+                  evaluationTitle={evaluation.evaluationTitle}
+                  totalScore={evaluation.totalScore}
+                  userID={evaluation.userID}
+                />
+              ))}
+          </LikeContainer>
         </SearchBox>
       </Wrapper>
     </>
