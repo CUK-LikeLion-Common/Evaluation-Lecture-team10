@@ -1,12 +1,15 @@
 import { AiTwotoneLike } from "react-icons/ai";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 const DetailBox = () => {
   const { evaluationID } = useParams();
   const [evaluation, setEvaluation] = useState(null);
+  const [likeCount, setLikeCount] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -24,28 +27,23 @@ const DetailBox = () => {
     return <p>loading...</p>;
   }
 
-  //console.log(evaluation.result.message);
-
   // 글 추천
-  const handleRecommendation = () => {
-    const requestData = {
+  const handleLike = () => {
+    const data = {
       userID: "",
       userPassword: "",
       userEmail: "",
     };
 
     axios
-      .post(`/likey/${evaluationID}`, requestData)
+      .post(`/likey/${evaluationID}`, data)
       .then((response) => {
-        if (response.data.success) {
-          alert("글이 추천되었습니다!");
-        } else {
-          alert("글 추천에 실패했습니다.");
-        }
+        alert("글을 추천하였습니다.");
+        setLikeCount(likeCount + 1);
       })
       .catch((error) => {
         console.error(error);
-        alert("글 추천에 실패했습니다.");
+        alert("추천에 실패했습니다.");
       });
   };
 
@@ -110,7 +108,8 @@ const DetailBox = () => {
 
       <ReviewWrapper>
         <AiTwotoneLike size="20" color="#b9ccfa" />
-        <ReviewText onClick={handleRecommendation}>추천</ReviewText>
+        <ReviewText onClick={handleLike}>추천</ReviewText>
+        <LikeCount>{likeCount}</LikeCount>
       </ReviewWrapper>
     </Wrapper>
   );
@@ -174,6 +173,11 @@ const ReviewWrapper = styled.div`
 
 const ReviewText = styled.div`
   margin-left: 5px;
+`;
+
+const LikeCount = styled.div`
+  font-size: 15px;
+  margin-left: 10px;
 `;
 
 export default DetailBox;
