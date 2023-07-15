@@ -42,10 +42,11 @@ const WriteBox = () => {
     axios
       .post("/evaluation/write", formData)
       .then((response) => {
-        console.log(response.data);
+        //console.log(response.data);
         alert("등록되었습니다");
-        console.log(formData.evaluationID);
-        navigate(`/${formData.evaluationID}`);
+
+        // 글 등록 후 메인 페이지로 이동
+        navigate("/");
       })
       .catch((error) => {
         console.error(error);
@@ -84,11 +85,11 @@ const WriteBox = () => {
           value={formData.lectureYear}
           onChange={handleChange}
         >
-          <Option value="">-- 선택 --</Option>
-          <Option value="2020">2020</Option>
-          <Option value="2021">2021</Option>
-          <Option value="2022">2022</Option>
-          <Option value="2023">2023</Option>
+          <option value="">-- 선택 --</option>
+          <option value="2020">2020</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
         </Select>
       </div>
 
@@ -99,11 +100,11 @@ const WriteBox = () => {
           value={formData.semesterDivide}
           onChange={handleChange}
         >
-          <Option value="">-- 선택 --</Option>
-          <Option value="1학기">1학기</Option>
-          <Option value="여름 계절학기">여름 계절학기</Option>
-          <Option value="2학기">2학기</Option>
-          <Option value="겨울 계절학기">겨울 계절학기</Option>
+          <option value="">-- 선택 --</option>
+          <option value="1학기">1학기</option>
+          <option value="여름 계절학기">여름 계절학기</option>
+          <option value="2학기">2학기</option>
+          <option value="겨울 계절학기">겨울 계절학기</option>
         </Select>
       </div>
 
@@ -114,10 +115,10 @@ const WriteBox = () => {
           value={formData.lectureDivide}
           onChange={handleChange}
         >
-          <Option value="">-- 선택 --</Option>
-          <Option value="전공">전공</Option>
-          <Option value="교양">교양</Option>
-          <Option value="기타">기타</Option>
+          <option value="">-- 선택 --</option>
+          <option value="전공">전공</option>
+          <option value="교양">교양</option>
+          <option value="기타">기타</option>
         </Select>
       </div>
 
@@ -148,16 +149,16 @@ const WriteBox = () => {
           value={formData.totalScore}
           onChange={handleChange}
         >
-          <Option value="">-- 선택 --</Option>
-          <Option value="A+">A+</Option>
-          <Option value="A">A</Option>
-          <Option value="B+">B+</Option>
-          <Option value="B">B</Option>
-          <Option value="C+">C+</Option>
-          <Option value="C">C</Option>
-          <Option value="D+">D+</Option>
-          <Option value="D">D</Option>
-          <Option value="F">F</Option>
+          <option value="">-- 선택 --</option>
+          <option value="A+">A+</option>
+          <option value="A">A</option>
+          <option value="B+">B+</option>
+          <option value="B">B</option>
+          <option value="C+">C+</option>
+          <option value="C">C</option>
+          <option value="D+">D+</option>
+          <option value="D">D</option>
+          <option value="F">F</option>
         </Select>
       </div>
 
@@ -168,16 +169,16 @@ const WriteBox = () => {
           value={formData.creditScore}
           onChange={handleChange}
         >
-          <Option value="">-- 선택 --</Option>
-          <Option value="A+">A+</Option>
-          <Option value="A">A</Option>
-          <Option value="B+">B+</Option>
-          <Option value="B">B</Option>
-          <Option value="C+">C+</Option>
-          <Option value="C">C</Option>
-          <Option value="D+">D+</Option>
-          <Option value="D">D</Option>
-          <Option value="F">F</Option>
+          <option value="">-- 선택 --</option>
+          <option value="A+">A+</option>
+          <option value="A">A</option>
+          <option value="B+">B+</option>
+          <option value="B">B</option>
+          <option value="C+">C+</option>
+          <option value="C">C</option>
+          <option value="D+">D+</option>
+          <option value="D">D</option>
+          <option value="F">F</option>
         </Select>
       </div>
 
@@ -188,16 +189,16 @@ const WriteBox = () => {
           value={formData.comfortableScore}
           onChange={handleChange}
         >
-          <Option value="">-- 선택 --</Option>
-          <Option value="A+">A+</Option>
-          <Option value="A">A</Option>
-          <Option value="B+">B+</Option>
-          <Option value="B">B</Option>
-          <Option value="C+">C+</Option>
-          <Option value="C">C</Option>
-          <Option value="D+">D+</Option>
-          <Option value="D">D</Option>
-          <Option value="F">F</Option>
+          <option value="">-- 선택 --</option>
+          <option value="A+">A+</option>
+          <option value="A">A</option>
+          <option value="B+">B+</option>
+          <option value="B">B</option>
+          <option value="C+">C+</option>
+          <option value="C">C</option>
+          <option value="D+">D+</option>
+          <option value="D">D</option>
+          <option value="F">F</option>
         </Select>
       </div>
 
@@ -208,16 +209,16 @@ const WriteBox = () => {
           value={formData.lectureScore}
           onChange={handleChange}
         >
-          <Option value="">-- 선택 --</Option>
-          <Option value="A+">A+</Option>
-          <Option value="A">A</Option>
-          <Option value="B+">B+</Option>
-          <Option value="B">B</Option>
-          <Option value="C+">C+</Option>
-          <Option value="C">C</Option>
-          <Option value="D+">D+</Option>
-          <Option value="D">D</Option>
-          <Option value="F">F</Option>
+          <option value="">-- 선택 --</option>
+          <option value="A+">A+</option>
+          <option value="A">A</option>
+          <option value="B+">B+</option>
+          <option value="B">B</option>
+          <option value="C+">C+</option>
+          <option value="C">C</option>
+          <option value="D+">D+</option>
+          <option value="D">D</option>
+          <option value="F">F</option>
         </Select>
       </div>
 
@@ -258,13 +259,6 @@ const Select = styled.select`
   width: 300px;
   padding: 10px;
   margin-bottom: 20px;
-`;
-
-const Option = styled.Option`
-  width: 100%;
-  &:hover {
-    background-color: #92b0fc;
-  }
 `;
 
 const TextArea = styled.textarea`
