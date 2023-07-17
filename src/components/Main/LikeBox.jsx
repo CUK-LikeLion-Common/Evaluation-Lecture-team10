@@ -1,16 +1,6 @@
 import styled from "styled-components";
-import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import axios from "axios";
-
-axios.get("/evaluation/read").then((response) => {
-  //console.log(response);
-});
-
-//const ARRAY = [0, 1, 2, 3, 4];
-
-//const stars = ARRAY.map((array) => <FaStar size="20" />);
 
 const Likes = styled(motion.div)`
   margin-top: 10px;
@@ -59,9 +49,23 @@ function LikeBox({
   evaluationTitle,
   userID,
 }) {
-  const url = `/${evaluationID}`;
+  const user_id = sessionStorage.getItem("user_id")
+    ? sessionStorage.getItem("user_id")
+    : null;
+  const url = user_id ? `/${evaluationID}` : `/`;
+
+  const onClick = () => {
+    if (!user_id) {
+      alert("로그인이 필요합니다");
+    }
+  };
+
   return (
-    <Link to={url} style={{ textDecoration: "none", color: "inherit" }}>
+    <Link
+      to={url}
+      onClick={onClick}
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <Likes whileHover={{ border: "3px solid #0c2e86", duration: 3 }}>
         <LecTitle>{lectureName}</LecTitle>
         <LecContent>{professorName} 교수님</LecContent>
