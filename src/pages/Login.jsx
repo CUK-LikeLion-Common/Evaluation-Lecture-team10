@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -83,8 +83,6 @@ const Login = () => {
     userPassword: "",
   });
 
-  const [userData, setUserData] = useState(null); // 로그인한 사용자 정보 저장
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -100,9 +98,9 @@ const Login = () => {
     axios
       .post("/login", requestData)
       .then((response) => {
-        console.log(response.data);
+        sessionStorage.setItem("user_id", requestData.userID);
         alert("로그인 성공");
-
+        console.log(response.data);
         navigate("/");
       })
       .catch((error) => {

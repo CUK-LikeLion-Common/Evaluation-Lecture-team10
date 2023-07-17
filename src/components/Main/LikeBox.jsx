@@ -1,11 +1,6 @@
 import styled from "styled-components";
-import { FaStar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-
-const ARRAY = [0, 1, 2, 3, 4];
-
-const stars = ARRAY.map((array) => <FaStar size="20" />);
 
 const Likes = styled(motion.div)`
   margin-top: 10px;
@@ -20,6 +15,7 @@ const Likes = styled(motion.div)`
 const LecTitle = styled.div`
   margin-top: 10px;
   margin-left: 10px;
+  color: #000;
   font-size: 15px;
 `;
 
@@ -31,34 +27,56 @@ const LecContent = styled.div`
 `;
 
 const LecStar = styled.div`
-  margin-top: 20px;
+  margin-right: 10px;
   display: flex;
   color: #efce4a;
   flex-flow: row nowrap;
-  justify-content: space-evenly;
+  gap: 10px;
+  //justify-content: space-evenly;
   span {
+    margin-top: 5px;
     font-size: 20px;
     font-weight: 700;
   }
 `;
 
-const LikeBox = () => {
+function LikeBox({
+  key,
+  evaluationID,
+  lectureName,
+  professorName,
+  totalScore,
+  evaluationTitle,
+  userID,
+}) {
+  const user_id = sessionStorage.getItem("user_id")
+    ? sessionStorage.getItem("user_id")
+    : null;
+  const url = user_id ? `/${evaluationID}` : `/`;
+
+  const onClick = () => {
+    if (!user_id) {
+      alert("로그인이 필요합니다");
+    }
+  };
+
   return (
     <Link
-      to={"/:lectureId"}
+      to={url}
+      onClick={onClick}
       style={{ textDecoration: "none", color: "inherit" }}
     >
       <Likes whileHover={{ border: "3px solid #0c2e86", duration: 3 }}>
-        <LecTitle>강의명</LecTitle>
-        <LecContent>000 교수님</LecContent>
+        <LecTitle>{lectureName}</LecTitle>
+        <LecContent>{professorName} 교수님</LecContent>
         <LecStar>
-          {stars}
-          <span>5.0</span>
-          <LecContent>작성자</LecContent>
+          <LecTitle>{evaluationTitle}</LecTitle>
+          <span>{totalScore}</span>
+          <LecContent>{userID}</LecContent>
         </LecStar>
       </Likes>
     </Link>
   );
-};
+}
 
 export default LikeBox;
