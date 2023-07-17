@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 
 axios.get("/evaluation/read").then((response) => {
-  console.log(response);
+  //console.log(response);
 });
 
 //const ARRAY = [0, 1, 2, 3, 4];

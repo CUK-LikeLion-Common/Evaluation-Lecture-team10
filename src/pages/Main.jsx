@@ -124,11 +124,14 @@ const Main = () => {
       .then((response) => setEvaluation(response.data.reverse()));
   }, []);
   const [evaluations, setEvaluation] = useState([]);
+  const [search, setSearch] = useState("");
   const [order, setOrder] = useState("최신순");
   const [divide, setDivide] = useState("전체");
   const onChangeOrder = (event) => setOrder(event.target.value);
   const onChangeDivide = (event) => setDivide(event.target.value);
-  console.log(evaluations);
+  const onChangeSearch = (event) => setSearch(event.target.value);
+
+  const url = `/evaluation/search`
   return (
     <>
       <Wrapper>
@@ -146,23 +149,33 @@ const Main = () => {
         </Banner>
         <SearchBox>
           <SearchTitle htmlFor="submitBtn">강의 평가 검색하기</SearchTitle>
-          <form>
+          <form
+            action="/evaluation/search/:page?lectureDivide=전공&searchType=추천순&search=운영체제"
+            method="get"
+          >
             <SearchInputBox>
               <SearchInput
                 type="text"
                 id="submitBtn"
                 placeholder="강의명, 교수님 이름으로 검색할 수 있어요"
+                onChange={onChangeSearch}
               ></SearchInput>
               <label htmlfor="submitBtn">
                 <SearchSvgInput type="submit" />
                 <SearchSvg />
               </label>
             </SearchInputBox>
-            <LikeTitle onChange={(event) => onChangeOrder(event)} name="order">
+            <LikeTitle
+              onChange={(event) => onChangeOrder(event)}
+              name="searchType"
+            >
               <option value="최신순">최신순</option>
               <option value="추천순">추천 많은 순</option>
             </LikeTitle>
-            <LikeTitle onChange={(event) => onChangeDivide(event)} name="order">
+            <LikeTitle
+              onChange={(event) => onChangeDivide(event)}
+              name="lectureDivide"
+            >
               <option value="전체">전체</option>
               <option value="전공">전공</option>
               <option value="교양">교양</option>
