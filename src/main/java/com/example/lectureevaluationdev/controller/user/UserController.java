@@ -72,8 +72,7 @@ public class UserController {
 
         if (loginUser != null) {
 //                userDTO.setUserID( loginUser.getUserID());
-            if (userDTO.getUserID().equals(loginUser.getUserID()) && userDTO.getUserEmail().equals(loginUser.getUserEmail())
-                    && userDTO.getUserEmail().equals(loginUser.getUserEmail())) {
+            if (userDTO.getUserID().equals(loginUser.getUserID() )&& (userDTO.getUserPassword().equals(loginUser.getUserPassword()))) {
                 EvaluationResponse result = userService.logout(userDTO);
                 session.invalidate(); //정말 로그아웃 되었으면 session 에서 나가게 만들어야해얗
                 return result;
