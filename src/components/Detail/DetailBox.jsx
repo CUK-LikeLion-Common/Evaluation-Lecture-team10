@@ -1,16 +1,22 @@
 import { AiTwotoneLike } from "react-icons/ai";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const DetailBox = () => {
+function DetailBox({}) {
   const { evaluationID } = useParams();
   const [evaluation, setEvaluation] = useState(null);
   const [likeCount, setLikeCount] = useState(0);
 
+  const { state } = useLocation();
   const navigate = useNavigate();
-
+  const user_id = sessionStorage.getItem("user_id")
+    ? sessionStorage.getItem("user_id")
+    : null;
+  const user_password = sessionStorage.getItem("user_password")
+    ? sessionStorage.getItem("user_password")
+    : null;
   useEffect(() => {
     axios
       .get(`/evaluation/read/${evaluationID}`)
@@ -49,24 +55,26 @@ const DetailBox = () => {
 
   // 글 삭제
   const handleDelete = () => {
-    const data = {
-      userID: "",
-      userPassword: "",
-    };
-
-    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
-
-    if (confirmed) {
-      axios
-        .delete(`/evaluation/delete/${evaluationID}`, { data })
-        .then(() => {
-          alert("삭제되었습니다.");
-          navigate("/");
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("삭제에 실패했습니다.");
-        });
+    if (state.userID === user_id) {
+      const data = {
+        userID: user_id,
+        userPassword: user_password,
+      };
+      const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+      if (confirmed) {
+        axios
+          .delete(`/evaluation/delete/${evaluationID}`, { data })
+          .then(() => {
+            alert("삭제되었습니다.");
+            navigate("/");
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("삭제에 실패했습니다.");
+          });
+      }
+    } else {
+      alert("자신의 글만 삭제 할 수 있습니다.");
     }
   };
 
@@ -139,7 +147,7 @@ const DetailBox = () => {
       </ButtonContainer>
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.div`
   border: 1px solid #0c2e86;
