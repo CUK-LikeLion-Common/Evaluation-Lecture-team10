@@ -83,24 +83,9 @@ const Login = () => {
     userPassword: "",
   });
 
-  const [userData, setUserData] = useState(null); // 로그인한 사용자 정보 저장
-  const [success, setSuccess] = useState(false);
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setUserData(formData.userID);
   };
-
-  useEffect(() => {
-    axios
-      .post("/login", formData)
-      .then((response) => {
-        setSuccess(true);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -115,10 +100,8 @@ const Login = () => {
       .then((response) => {
         sessionStorage.setItem("user_id", requestData.userID);
         alert("로그인 성공");
-
+        console.log(response.data);
         navigate("/");
-
-        console.log(success);
       })
       .catch((error) => {
         console.error(error);
