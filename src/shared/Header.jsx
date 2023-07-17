@@ -11,8 +11,8 @@ function Header() {
   const user_password = sessionStorage.getItem("user_password")
     ? sessionStorage.getItem("user_password")
     : null;
-  console.log(user_id);
-  const onClick = () => {
+
+  const onClickLogout = () => {
     const requestData = {
       userID: user_id,
       userPassword: user_password,
@@ -31,6 +31,9 @@ function Header() {
         alert("로그인 되어있지 않습니다.");
       });
   };
+
+  const onClickWithDraw = () => {};
+
   return (
     <Wrapper>
       <Contents>
@@ -45,10 +48,13 @@ function Header() {
               <>
                 <li>{user_id} 환영합니다!</li>
                 <li>
-                  <Button onClick={onClick}>로그아웃</Button>
+                  <Button onClick={onClickLogout}>로그아웃</Button>
                 </li>
                 <li>
                   <Button onClick={() => navigate("/write")}>글쓰기</Button>
+                </li>
+                <li>
+                  <Button onClick={() => navigate("/write")}>회원탈퇴</Button>
                 </li>
               </>
             ) : (

@@ -11,8 +11,8 @@ const WriteBox = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    evaluationID: "",
-    userID: "",
+    //evaluationID: "",
+    userID: user_id,
     lectureName: "", // 강의명
     professorName: "", // 교수명
     lectureYear: "", // 강의년도
