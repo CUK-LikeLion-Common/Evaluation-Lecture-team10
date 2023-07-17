@@ -5,10 +5,6 @@ import LikeBox from "../components/Main/LikeBox";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const ARRAY = [0, 1, 2, 3];
-
-//const lectures = ARRAY.map((array) => <LikeBox />);
-
 const Wrapper = styled.div`
   text-align: center;
   align-items: center;
@@ -121,17 +117,48 @@ const Main = () => {
   useEffect(() => {
     axios
       .get("/evaluation/read")
-      .then((response) => setEvaluation(response.data.reverse()));
+      .then((response) =>
+        response.data
+          ? setEvaluation(response.data.reverse())
+          : setEvaluation(null)
+      );
   }, []);
   const [evaluations, setEvaluation] = useState([]);
-  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState(null);
   const [order, setOrder] = useState("최신순");
   const [divide, setDivide] = useState("전체");
   const onChangeOrder = (event) => setOrder(event.target.value);
   const onChangeDivide = (event) => setDivide(event.target.value);
   const onChangeSearch = (event) => setSearch(event.target.value);
 
-  const url = `/evaluation/search`
+  const user_id = sessionStorage.getItem("user_id")
+    ? sessionStorage.getItem("user_id")
+    : null;
+  const url = `evaluation/search/${page}?lectureDivide=${divide}&searchType=${order}&search=${search}`;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!user_id) {
+      alert("로그인 후 검색할 수 있습니다");
+      return;
+    }
+
+    axios
+      .get(url)
+      .then((response) => {
+        setEvaluation(response.data.result.evaluations);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const onInvalid = () => {
+    alert("검색어를 입력하세요!");
+  };
+
   return (
     <>
       <Wrapper>
@@ -149,16 +176,15 @@ const Main = () => {
         </Banner>
         <SearchBox>
           <SearchTitle htmlFor="submitBtn">강의 평가 검색하기</SearchTitle>
-          <form
-            action="/evaluation/search/:page?lectureDivide=전공&searchType=추천순&search=운영체제"
-            method="get"
-          >
+          <form onSubmit={handleSubmit}>
             <SearchInputBox>
               <SearchInput
                 type="text"
                 id="submitBtn"
                 placeholder="강의명, 교수님 이름으로 검색할 수 있어요"
                 onChange={onChangeSearch}
+                onInvalid={onInvalid}
+                required
               ></SearchInput>
               <label htmlfor="submitBtn">
                 <SearchSvgInput type="submit" />
@@ -184,19 +210,20 @@ const Main = () => {
           </form>
           <LikeContainer>
             {evaluations
-              .reverse()
-              .slice(0, 4)
-              .map((evaluation) => (
-                <LikeBox
-                  key={evaluation.evaluationID}
-                  evaluationID={evaluation.evaluationID}
-                  lectureName={evaluation.lectureName}
-                  professorName={evaluation.professorName}
-                  evaluationTitle={evaluation.evaluationTitle}
-                  totalScore={evaluation.totalScore}
-                  userID={evaluation.userID}
-                />
-              ))}
+              ? evaluations
+                  .slice(0, 4)
+                  .map((evaluation) => (
+                    <LikeBox
+                      key={evaluation.evaluationID}
+                      evaluationID={evaluation.evaluationID}
+                      lectureName={evaluation.lectureName}
+                      professorName={evaluation.professorName}
+                      evaluationTitle={evaluation.evaluationTitle}
+                      totalScore={evaluation.totalScore}
+                      userID={evaluation.userID}
+                    />
+                  ))
+              : ""}
           </LikeContainer>
         </SearchBox>
       </Wrapper>
