@@ -114,15 +114,6 @@ const LikeContainer = styled.div`
 `;
 
 const Main = () => {
-  useEffect(() => {
-    axios
-      .get("/evaluation/read")
-      .then((response) =>
-        response.data
-          ? setEvaluation(response.data.reverse())
-          : setEvaluation(null)
-      );
-  }, []);
   const [evaluations, setEvaluation] = useState([]);
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState(null);
@@ -132,6 +123,15 @@ const Main = () => {
   const onChangeDivide = (event) => setDivide(event.target.value);
   const onChangeSearch = (event) => setSearch(event.target.value);
 
+  useEffect(() => {
+    axios
+      .get("/evaluation/read")
+      .then((response) =>
+        response.data
+          ? setEvaluation(response.data.reverse().slice(0, 4))
+          : setEvaluation(null)
+      );
+  }, []);
   const user_id = sessionStorage.getItem("user_id")
     ? sessionStorage.getItem("user_id")
     : null;
@@ -210,19 +210,17 @@ const Main = () => {
           </form>
           <LikeContainer>
             {evaluations
-              ? evaluations
-                  .slice(0, 4)
-                  .map((evaluation) => (
-                    <LikeBox
-                      key={evaluation.evaluationID}
-                      evaluationID={evaluation.evaluationID}
-                      lectureName={evaluation.lectureName}
-                      professorName={evaluation.professorName}
-                      evaluationTitle={evaluation.evaluationTitle}
-                      totalScore={evaluation.totalScore}
-                      userID={evaluation.userID}
-                    />
-                  ))
+              ? evaluations.map((evaluation) => (
+                  <LikeBox
+                    key={evaluation.evaluationID}
+                    evaluationID={evaluation.evaluationID}
+                    lectureName={evaluation.lectureName}
+                    professorName={evaluation.professorName}
+                    evaluationTitle={evaluation.evaluationTitle}
+                    totalScore={evaluation.totalScore}
+                    userID={evaluation.userID}
+                  />
+                ))
               : ""}
           </LikeContainer>
         </SearchBox>
