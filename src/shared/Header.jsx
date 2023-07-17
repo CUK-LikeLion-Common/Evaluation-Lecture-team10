@@ -47,6 +47,9 @@ function Header() {
                 <li>
                   <Button onClick={onClick}>로그아웃</Button>
                 </li>
+                <li>
+                  <Button onClick={() => navigate("/write")}>글쓰기</Button>
+                </li>
               </>
             ) : (
               <>

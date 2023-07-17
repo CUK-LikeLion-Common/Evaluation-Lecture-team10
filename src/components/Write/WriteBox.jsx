@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const WriteBox = () => {
-  // 로그인 여부 판단
-  //const [user, setUser] = useState(null);
+  const user_id = sessionStorage.getItem("user_id")
+    ? sessionStorage.getItem("user_id")
+    : null;
 
   const navigate = useNavigate();
 
@@ -32,10 +33,10 @@ const WriteBox = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // if (!user) {
-    //   alert("로그인 후 등록할 수 있습니다."); // 로그인 여부 확인
-    //   return;
-    // }
+    if (!user_id) {
+      alert("로그인 후 등록할 수 있습니다."); // 로그인 여부 확인
+      return;
+    }
 
     setFormData({ ...formData });
 
