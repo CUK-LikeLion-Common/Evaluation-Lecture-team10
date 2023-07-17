@@ -1,10 +1,36 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import symbol from "../img/symbol.png";
+import axios from "axios";
 
-const Header = () => {
+function Header() {
   const navigate = useNavigate();
+  const user_id = sessionStorage.getItem("user_id")
+    ? sessionStorage.getItem("user_id")
+    : null;
+  const user_password = sessionStorage.getItem("user_password")
+    ? sessionStorage.getItem("user_password")
+    : null;
+  console.log(user_id);
+  const onClick = () => {
+    const requestData = {
+      userID: user_id,
+      userPassword: user_password,
+    };
+    axios
+      .post("/logout", requestData)
+      .then((response) => {
+        sessionStorage.removeItem("user_id", requestData.userID);
+        sessionStorage.removeItem("user_password", requestData.userPassword);
+        alert("로그아웃 되었습니다.");
 
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("로그인 되어있지 않습니다.");
+      });
+  };
   return (
     <Wrapper>
       <Contents>
@@ -15,18 +41,31 @@ const Header = () => {
 
         <Navigation>
           <ul>
-            <li>
-              <Button onClick={() => navigate("/login")}>로그인</Button>
-            </li>
-            <li>
-              <Button onClick={() => navigate("/register")}>회원가입</Button>
-            </li>
+            {user_id ? (
+              <>
+                <li>{user_id} 환영합니다!</li>
+                <li>
+                  <Button onClick={onClick}>로그아웃</Button>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Button onClick={() => navigate("/login")}>로그인</Button>
+                </li>
+                <li>
+                  <Button onClick={() => navigate("/register")}>
+                    회원가입
+                  </Button>
+                </li>
+              </>
+            )}
           </ul>
         </Navigation>
       </Contents>
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.header`
   background-color: #fcfbfb;

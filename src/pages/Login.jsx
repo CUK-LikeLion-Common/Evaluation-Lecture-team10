@@ -99,6 +99,7 @@ const Login = () => {
       .post("/login", requestData)
       .then((response) => {
         sessionStorage.setItem("user_id", requestData.userID);
+        sessionStorage.setItem("user_password", requestData.userPassword);
         alert("로그인 성공");
         console.log(response.data);
         navigate("/");
