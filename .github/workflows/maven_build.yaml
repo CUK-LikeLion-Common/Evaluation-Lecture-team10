@@ -2,10 +2,10 @@ name: Maven CI Build
 on:
   push:
     branches:
-      - develop_BE
+      - main
   pull_request:
     branches:
-      - develop_BE
+      - main
 
 jobs:
   build:
