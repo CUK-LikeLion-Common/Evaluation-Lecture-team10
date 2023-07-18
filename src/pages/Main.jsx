@@ -124,13 +124,11 @@ const Main = () => {
   const onChangeSearch = (event) => setSearch(event.target.value);
 
   useEffect(() => {
-    axios
-      .get("/evaluation/read")
-      .then((response) =>
-        response.data
-          ? setEvaluation(response.data.reverse().slice(0, 4))
-          : setEvaluation(null)
-      );
+    axios.get("/evaluation/read").then((response) => {
+      response.data
+        ? setEvaluation(response.data.reverse().slice(0, 4))
+        : setEvaluation(null);
+    });
   }, []);
   const user_id = sessionStorage.getItem("user_id")
     ? sessionStorage.getItem("user_id")
