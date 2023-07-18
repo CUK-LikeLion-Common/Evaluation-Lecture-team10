@@ -100,10 +100,11 @@ public class UserController {
         return result;
     }
 
-    @DeleteMapping("/delete/{id}")
+
+    @PostMapping("/delete/{id}")
     @ResponseBody
-    public ResponseEntity<EvaluationResponse> delete(@PathVariable("id") String userID, @RequestBody Map<String, String> user, HttpSession session) throws Exception {
-        String password = user.get("userPassword").toString();
+    public ResponseEntity<EvaluationResponse> delete(@PathVariable("id") String userID, @RequestBody UserDTO userDTO, HttpSession session) throws Exception {
+        String password = userDTO.getUserPassword();
 
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
         System.out.println("Login User: " + loginUser);
@@ -118,7 +119,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
         }
     }
-
 
     @GetMapping("/")
     public String index(){
