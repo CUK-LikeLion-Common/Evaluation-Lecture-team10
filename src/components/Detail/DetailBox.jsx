@@ -1,10 +1,10 @@
 import { AiTwotoneLike } from "react-icons/ai";
 import styled from "styled-components";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function DetailBox({}) {
+function DetailBox() {
   const { evaluationID } = useParams();
   const [evaluation, setEvaluation] = useState(null);
   const [likeCount, setLikeCount] = useState(0);
@@ -22,12 +22,15 @@ function DetailBox({}) {
       .get(`/evaluation/read/${evaluationID}`)
       .then((response) => {
         setEvaluation(response.data);
+        //console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
         alert("글을 불러오는데 실패했습니다.");
       });
   }, [evaluationID]);
+
+  const user_write = state ? state.userID : "";
 
   if (!evaluation) {
     return <p>loading...</p>;
@@ -55,7 +58,7 @@ function DetailBox({}) {
 
   // 글 삭제
   const handleDelete = () => {
-    if (state.userID === user_id) {
+    if (user_id === user_write) {
       const data = {
         userID: user_id,
         userPassword: user_password,
@@ -74,7 +77,15 @@ function DetailBox({}) {
           });
       }
     } else {
-      alert("자신의 글만 삭제 할 수 있습니다.");
+      alert("자신의 글만 삭제할 수 있습니다.");
+    }
+  };
+
+  //글 수정
+  const handleModify = () => {
+    if (state.userID === user_id) {
+    } else {
+      alert("자신의 글만 수정할 수 있습니다.");
     }
   };
 
@@ -142,7 +153,26 @@ function DetailBox({}) {
       </ReviewWrapper>
 
       <ButtonContainer>
-        <Button>수정</Button>
+        {/* <Button
+          to={`/modify/${evaluation.result.message.evaluationID}`}
+          state={evaluation.result.message}
+        >
+          수정
+        </Button> */}
+        {
+          user_write === user_id ? (
+            <Button
+              to={`/modify/${evaluation.result.message.evaluationID}`}
+              state={evaluation.result.message}
+            >
+              수정
+            </Button>
+          ) : (
+            <Button onClick={handleModify}>수정</Button>
+          )
+          //navigate(`/modify/${evaluation.result.message.evaluationID}`);
+        }
+
         <Button onClick={handleDelete}>삭제</Button>
       </ButtonContainer>
     </Wrapper>
@@ -168,7 +198,7 @@ export const ButtonContainer = styled.div`
   margin-top: 15px;
 `;
 
-export const Button = styled.div`
+export const Button = styled(Link)`
   margin: 10px;
   color: gray;
   font-size: 12px;
