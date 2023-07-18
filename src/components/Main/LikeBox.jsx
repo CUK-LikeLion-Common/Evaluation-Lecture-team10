@@ -65,6 +65,9 @@ function LikeBox({
       to={url}
       onClick={onClick}
       style={{ textDecoration: "none", color: "inherit" }}
+      state={{
+        userID: userID,
+      }}
     >
       <Likes whileHover={{ border: "3px solid #0c2e86", duration: 3 }}>
         <LecTitle>{lectureName}</LecTitle>

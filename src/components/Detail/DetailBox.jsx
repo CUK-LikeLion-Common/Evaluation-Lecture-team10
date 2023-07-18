@@ -1,27 +1,36 @@
 import { AiTwotoneLike } from "react-icons/ai";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const DetailBox = () => {
+function DetailBox() {
   const { evaluationID } = useParams();
   const [evaluation, setEvaluation] = useState(null);
   const [likeCount, setLikeCount] = useState(0);
 
+  const { state } = useLocation();
   const navigate = useNavigate();
-
+  const user_id = sessionStorage.getItem("user_id")
+    ? sessionStorage.getItem("user_id")
+    : null;
+  const user_password = sessionStorage.getItem("user_password")
+    ? sessionStorage.getItem("user_password")
+    : null;
   useEffect(() => {
     axios
       .get(`/evaluation/read/${evaluationID}`)
       .then((response) => {
         setEvaluation(response.data);
+        //console.log(response.data);
       })
       .catch((error) => {
         console.error(error);
         alert("글을 불러오는데 실패했습니다.");
       });
   }, [evaluationID]);
+
+  const user_write = state ? state.userID : "";
 
   if (!evaluation) {
     return <p>loading...</p>;
@@ -49,24 +58,34 @@ const DetailBox = () => {
 
   // 글 삭제
   const handleDelete = () => {
-    const data = {
-      userID: "",
-      userPassword: "",
-    };
+    if (user_id === user_write) {
+      const data = {
+        userID: user_id,
+        userPassword: user_password,
+      };
+      const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+      if (confirmed) {
+        axios
+          .delete(`/evaluation/delete/${evaluationID}`, { data })
+          .then(() => {
+            alert("삭제되었습니다.");
+            navigate("/");
+          })
+          .catch((error) => {
+            console.error(error);
+            alert("삭제에 실패했습니다.");
+          });
+      }
+    } else {
+      alert("자신의 글만 삭제할 수 있습니다.");
+    }
+  };
 
-    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
-
-    if (confirmed) {
-      axios
-        .delete(`/evaluation/delete/${evaluationID}`, { data })
-        .then(() => {
-          alert("삭제되었습니다.");
-          navigate("/");
-        })
-        .catch((error) => {
-          console.error(error);
-          alert("삭제에 실패했습니다.");
-        });
+  //글 수정
+  const handleModify = () => {
+    if (state.userID === user_id) {
+    } else {
+      alert("자신의 글만 수정할 수 있습니다.");
     }
   };
 
@@ -134,12 +153,31 @@ const DetailBox = () => {
       </ReviewWrapper>
 
       <ButtonContainer>
-        <Button>수정</Button>
+        {/* <Button
+          to={`/modify/${evaluation.result.message.evaluationID}`}
+          state={evaluation.result.message}
+        >
+          수정
+        </Button> */}
+        {
+          user_write === user_id ? (
+            <Button
+              to={`/modify/${evaluation.result.message.evaluationID}`}
+              state={evaluation.result.message}
+            >
+              수정
+            </Button>
+          ) : (
+            <Button onClick={handleModify}>수정</Button>
+          )
+          //navigate(`/modify/${evaluation.result.message.evaluationID}`);
+        }
+
         <Button onClick={handleDelete}>삭제</Button>
       </ButtonContainer>
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.div`
   border: 1px solid #0c2e86;
@@ -160,7 +198,7 @@ export const ButtonContainer = styled.div`
   margin-top: 15px;
 `;
 
-export const Button = styled.div`
+export const Button = styled(Link)`
   margin: 10px;
   color: gray;
   font-size: 12px;

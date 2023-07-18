@@ -1,30 +1,35 @@
 import axios from "axios";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-const WriteBox = () => {
+function ModifyBox() {
   const user_id = sessionStorage.getItem("user_id")
     ? sessionStorage.getItem("user_id")
     : null;
-
-  const navigate = useNavigate();
+  const user_password = sessionStorage.getItem("user_password")
+    ? sessionStorage.getItem("user_password")
+    : null;
+  const { evaluationID } = useParams();
+  const { state } = useLocation();
 
   const [formData, setFormData] = useState({
-    //evaluationID: "",
-    userID: user_id,
-    lectureName: "", // 강의명
-    professorName: "", // 교수명
-    lectureYear: "", // 강의년도
-    semesterDivide: "", // 학기 구분
-    lectureDivide: "", // 강의 구분 (전공, 교양, 기타)
-    evaluationTitle: "", // 강의 평가 제목
-    evaluationContent: "", // 강의평가 내용
-    totalScore: "", // 총 점수
-    creditScore: "", // 성적 점수
-    comfortableScore: "", // 강의 널널한 정도
-    lectureScore: "", // 평가 점수
+    userID: `${user_id}`,
+    userPassword: `${user_password}`,
+    lectureName: `${state.lectureName}`, // 강의명
+    professorName: `${state.professorName}`, // 교수명
+    lectureYear: `${state.lectureYear}`, // 강의년도
+    semesterDivide: `${state.semesterDivide}`, // 학기 구분
+    lectureDivide: `${state.lectureDivide}`, // 강의 구분 (전공, 교양, 기타)
+    evaluationTitle: `${state.evaluationTitle}`, // 강의 평가 제목
+    evaluationContent: `${state.evaluationContent}`, // 강의평가 내용
+    totalScore: `${state.totalScore}`, // 총 점수
+    creditScore: `${state.creditScore}`, // 성적 점수
+    comfortableScore: `${state.comfortableScore}`, // 강의 널널한 정도
+    lectureScore: `${state.lectureScore}`, // 평가 점수
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -41,17 +46,15 @@ const WriteBox = () => {
     setFormData({ ...formData });
 
     axios
-      .post("/evaluation/write", formData)
+      .patch(`/evaluation/modify/${evaluationID}`, formData)
       .then((response) => {
-        //console.log(response.data);
-        alert("등록되었습니다");
-
-        // 글 등록 후 메인 페이지로 이동
-        navigate("/");
+        console.log(response.data);
+        alert("수정되었습니다");
+        navigate(`/${evaluationID}`);
       })
       .catch((error) => {
         console.error(error);
-        alert("등록에 실패했습니다");
+        alert("수정에 실패했습니다");
       });
   };
 
@@ -224,11 +227,11 @@ const WriteBox = () => {
       </div>
 
       <ButtonWrapper>
-        <Button type="submit">등록</Button>
+        <Button type="submit">수정</Button>
       </ButtonWrapper>
     </Wrapper>
   );
-};
+}
 
 const Wrapper = styled.form`
   border: 1px solid #0c2e86;
@@ -295,4 +298,4 @@ const Button = styled.button`
   }
 `;
 
-export default WriteBox;
+export default ModifyBox;

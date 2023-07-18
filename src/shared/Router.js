@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Detail, Login, Main, Register, User, Write } from "../pages";
+import { Detail, Login, Main, Register, User, Write, Modify } from "../pages";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -13,6 +13,7 @@ const Router = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/write" element={<Write />} />
         <Route path="/:evaluationID" element={<Detail />} />
+        <Route path="/modify/:evaluationID" element={<Modify />} />
         <Route path="user/:id" element={<User />} />
       </Routes>
       <Footer />
