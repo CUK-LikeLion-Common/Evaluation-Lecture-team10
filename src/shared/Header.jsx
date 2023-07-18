@@ -12,11 +12,12 @@ function Header() {
     ? sessionStorage.getItem("user_password")
     : null;
 
+  const requestData = {
+    userID: user_id,
+    userPassword: user_password,
+  };
+
   const onClickLogout = () => {
-    const requestData = {
-      userID: user_id,
-      userPassword: user_password,
-    };
     axios
       .post("/logout", requestData)
       .then((response) => {
@@ -32,7 +33,29 @@ function Header() {
       });
   };
 
-  const onClickWithDraw = () => {};
+  const onClickWithDraw = () => {
+    const confirmed = window.confirm("정말로 탈퇴하시겠습니까?");
+    if (confirmed) {
+      axios
+        .delete(`/delete/${user_id}`, {
+          data: {
+            userID: user_id,
+            userPassword: user_password,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          navigate("/");
+          alert("회원탈퇴 되었습니다.");
+          sessionStorage.removeItem("user_id", requestData.userID);
+          sessionStorage.removeItem("user_password", requestData.userPassword);
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("회원탈퇴에 실패했습니다.");
+        });
+    }
+  };
 
   return (
     <Wrapper>
@@ -48,13 +71,14 @@ function Header() {
               <>
                 <li>{user_id} 환영합니다!</li>
                 <li>
-                  <Button onClick={onClickLogout}>로그아웃</Button>
-                </li>
-                <li>
                   <Button onClick={() => navigate("/write")}>글쓰기</Button>
                 </li>
                 <li>
-                  <Button onClick={() => navigate("/write")}>회원탈퇴</Button>
+                  <Button onClick={onClickLogout}>로그아웃</Button>
+                </li>
+
+                <li>
+                  <Button onClick={onClickWithDraw}>회원탈퇴</Button>
                 </li>
               </>
             ) : (
