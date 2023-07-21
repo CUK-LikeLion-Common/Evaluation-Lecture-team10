@@ -28,8 +28,7 @@ public class UserEntity {
     @Column(name="user_email")
     private String userEmail;
 
-    @Column(name="status")
-    private Boolean status;
+
     /*
     @Column(name="userEmailHash")
     private String userEmailHash;
@@ -55,7 +54,6 @@ public class UserEntity {
         userEntity.setUserID(userDTO.getUserID());
         userEntity.setUserEmail(userDTO.getUserEmail());
         userEntity.setUserPassword(userDTO.getUserPassword());
-        userEntity.setStatus(userDTO.isStatus());
         return userEntity;
     }
 }

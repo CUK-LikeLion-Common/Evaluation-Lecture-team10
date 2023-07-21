@@ -109,10 +109,7 @@ public class EvaluationController {
                                                 HttpSession session) throws Exception {
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
-
-        System.out.println(loginUser);
-        System.out.println(evaluationDTO.getUserID());
-        //EvaluationDTO 랑 session에 들어온 ID 가 같은지
+        //evaluationID 가 없을 경우 -> 프론트 짜놓은거 보고 결정할 수 있을 듯...
         if (loginUser.getUserID().equals(evaluationDTO.getUserID())) {
             try {
                 EvaluationResponse result = evaluationService.modifyEvaluation(EvaluationID, evaluationDTO);
@@ -138,11 +135,10 @@ public class EvaluationController {
             EvaluationResponse result = evaluationService.deleteEvaluation(evaluationID,evaluationDTO);
             return result;
         }
+        //ID 를 잘못 입력해도 그 아이디 로그인 되어있지 않으니 notLoggedIn 뜸
+        //DB에 있는 아이디랑 비교해서 작성자 아이디랑 세션이랑 다르면 접근할 수 없습니다 뜨도록
         else{response.setResponseData("message", "notLoggedIn");
             return response;
         }
     }
-
-
-
     }

@@ -3,6 +3,8 @@ package com.example.lectureevaluationdev.dto.evaluation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor // 기본 생성자 자동으로 만들어줌
@@ -47,11 +49,10 @@ public class EvaluationDTO {
     @JsonProperty("userID")
     private String userID;
 
+    @JsonProperty("created_at")
+    Date createdAt;
 
     long evaluationID;
-
-    @JsonProperty("userEmail")
-    private String userEmail;
 
     @JsonProperty("userPassword")
     private String userPassword;

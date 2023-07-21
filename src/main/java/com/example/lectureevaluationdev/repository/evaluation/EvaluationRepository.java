@@ -20,6 +20,8 @@ public interface EvaluationRepository extends JpaRepository<EvaluationEntity, Lo
     List<EvaluationEntity> findAll(Sort sort);
     Page<EvaluationEntity> findAll(Pageable pageable);
 
+    @Query("SELECT e FROM EvaluationEntity e ORDER BY e.createdAt DESC")
+    Page<EvaluationEntity> findAllByDesc(Pageable pageable);
 
     @Query("SELECT e FROM EvaluationEntity e WHERE (:lectureDivide = '전체' OR e.lectureDivide = :lectureDivide) " +
             "AND (LOWER(e.lectureName) LIKE %:search% OR LOWER(e.professorName) LIKE %:search% OR LOWER(e.semesterDivide) LIKE %:search% " +
