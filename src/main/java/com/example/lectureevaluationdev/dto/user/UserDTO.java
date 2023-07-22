@@ -16,7 +16,7 @@ public class UserDTO {
     private String userID;
     private String userEmail;
     private String userPassword;
-    private boolean status;
+
 
 
 
@@ -25,7 +25,7 @@ public class UserDTO {
         userDTO.setUserID(userEntity.getUserID());
         userDTO.setUserEmail(userEntity.getUserEmail());
         userDTO.setUserPassword(userEntity.getUserPassword());
-        userDTO.setStatus(userEntity.getStatus());
+
         return userDTO;
     }
 }

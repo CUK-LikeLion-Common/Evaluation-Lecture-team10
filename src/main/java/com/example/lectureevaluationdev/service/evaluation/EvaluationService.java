@@ -41,11 +41,11 @@ public class EvaluationService extends ResponseService {
         //테이블 구조상..평가 과목별로 id 지정하거나 나눈게 아니라서...
         //나의 작성 게시글 확인같은걸 할수가 없음
 
-        try{
+        try {
             EvaluationEntity evaluationEntity = EvaluationMapper.INSTANCE.toEntity(evaluationDTO);
             evaluationRepository.save(evaluationEntity);
             return setResponse(200, "message", "글 작성 성공");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("글 작성 오류 발생");
         }
@@ -103,30 +103,61 @@ public class EvaluationService extends ResponseService {
 
 
 
+
+//    public ResponseEntity<List<EvaluationDTO>> getAllBoards(Pageable pageable,String sortingTag) {
+//
+//        try{
+//
+//            Page<EvaluationEntity> results ;
+//
+//            if (sortingTag != null) {
+//                Sort sort = Sort.by(Sort.Direction.DESC,"evaluationID");
+////                Sort sort = Sort.by(Sort.Direction.DESC, sortingTag);
+//                //request sort 옵션
+//                results = evaluationRepository.findAll(PageRequest.of(pageable.getPageNumber(), 10,sort));
+//            } else {
+//                results = evaluationRepository.findAll(pageable);
+//            }
+//
+//            List<EvaluationDTO> evaluationDTOList = new ArrayList<>();
+//            for(EvaluationEntity entity:results){
+//                EvaluationDTO evaluationDTO = EvaluationMapper.INSTANCE.toDTO(entity);
+//                evaluationDTOList.add(evaluationDTO);
+//
+//            }
+//            return ResponseEntity.ok(evaluationDTOList);
+//        }catch(Exception e){
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
+
     public ResponseEntity<List<EvaluationDTO>> getAllBoards(Pageable pageable, String sortingTag) {
+        try {
+            Page<EvaluationEntity> results;
 
-        try{
-
-            Page<EvaluationEntity> results ;
-
-            if (sortingTag != null) {
-                Sort sort = Sort.by(Sort.Direction.ASC, sortingTag);
-                results = evaluationRepository.findAll(PageRequest.of(pageable.getPageNumber(), 10,sort));
+            if ("latest".equals(sortingTag)) {
+                Sort sort = Sort.by(Sort.Direction.DESC, "createdAt");
+                results = evaluationRepository.findAllByDesc(pageable);
             } else {
                 results = evaluationRepository.findAll(pageable);
             }
 
             List<EvaluationDTO> evaluationDTOList = new ArrayList<>();
-            for(EvaluationEntity entity:results){
+            for (EvaluationEntity entity : results) {
                 EvaluationDTO evaluationDTO = EvaluationMapper.INSTANCE.toDTO(entity);
                 evaluationDTOList.add(evaluationDTO);
-
             }
+
             return ResponseEntity.ok(evaluationDTOList);
-        }catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
+
+
+
 
     public EvaluationResponse getOneBoards(long evaluationID) {
 
@@ -154,11 +185,10 @@ public class EvaluationService extends ResponseService {
         if (evaluationentity.isPresent() && userEntityOptional.isPresent()) {
             EvaluationEntity evaluationEntity1 = evaluationentity.get();
             UserEntity userEntity = userEntityOptional.get();
-            if (userEntity.getUserEmail().equals(evaluationDTO.getUserEmail()) && userEntity.getUserPassword().equals(evaluationDTO.getUserPassword())) {
+            if (userEntity.getUserPassword().equals(evaluationDTO.getUserPassword())) {
                 try {
                     EvaluationEntity evaluationEntity2 = EvaluationMapper.INSTANCE.toEntity(evaluationDTO);
-                    System.out.println(evaluationEntity1);
-                    System.out.println(evaluationEntity2);
+
                     if (evaluationEntity2.getLectureName() != null) {
                         evaluationEntity1.setLectureName(evaluationEntity2.getLectureName());
                     }
@@ -225,9 +255,10 @@ public class EvaluationService extends ResponseService {
         EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
         Optional<EvaluationEntity> evaluationentity = this.evaluationRepository.findByEvaluationID(evaluationID);
         Optional<UserEntity> userEntityOptional = this.userRepository.findByUserID(evaluationDTO.getUserID());
+
         if (evaluationentity.isPresent() && userEntityOptional.isPresent()) {
             UserEntity userEntity = userEntityOptional.get();
-            if (userEntity.getUserEmail().equals(evaluationDTO.getUserEmail()) && userEntity.getUserPassword().equals(evaluationDTO.getUserPassword())) {
+            if (userEntity.getUserPassword().equals(evaluationDTO.getUserPassword())) {
                 try {
                     this.evaluationRepository.deleteById(evaluationID);
                     return this.setResponse(200, "success", "삭제 성공");

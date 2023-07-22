@@ -44,7 +44,6 @@ public class UserController {
     public EvaluationResponse login(@RequestBody UserDTO userDTO, HttpSession session) throws Exception{
 //        EvaluationResponse.ResponseMap response = new EvaluationResponse.ResponseMap();
         EvaluationResponse result = userService.login(userDTO);
-
         if(userDTO != null ){
             session.setAttribute("loginUser", userDTO);
             System.out.println("로그인 User >> " + session.getAttribute("loginUser"));
@@ -53,7 +52,6 @@ public class UserController {
             return errorResponse;
         }
         return result;
-
     }
 
     @GetMapping("/logout")
@@ -68,14 +66,11 @@ public class UserController {
 
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
         System.out.println("Login User: " + loginUser);
-//      String requestUserID = userDTO.getUserID();
 
         if (loginUser != null) {
-//                userDTO.setUserID( loginUser.getUserID());
-            if (userDTO.getUserID().equals(loginUser.getUserID()) && userDTO.getUserEmail().equals(loginUser.getUserEmail())
-                    && userDTO.getUserEmail().equals(loginUser.getUserEmail())) {
+            if (userDTO.getUserID().equals(loginUser.getUserID() )&& (userDTO.getUserPassword().equals(loginUser.getUserPassword())))  {
                 EvaluationResponse result = userService.logout(userDTO);
-                session.invalidate(); //정말 로그아웃 되었으면 session 에서 나가게 만들어야해얗
+                session.invalidate();
                 return result;
             }else{
                 response.setResponseData("message","회원정보가 옳지 않습니다");
@@ -95,7 +90,6 @@ public class UserController {
                 .userID(userDTO.getUserID())
                 .userPassword(userDTO.getUserPassword())
                 .userEmail(userDTO.getUserEmail())
-                .status(userDTO.isStatus())
                 .build();
 
         EvaluationResponse result = userService.signUp(userInfo);

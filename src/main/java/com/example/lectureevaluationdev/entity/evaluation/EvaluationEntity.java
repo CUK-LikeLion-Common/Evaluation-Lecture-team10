@@ -62,7 +62,7 @@ public class EvaluationEntity {
     @Column(name="like_count")
     int likeCount;
 
-
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="created_at", nullable = false)
     Date createdAt;
 
@@ -78,7 +78,7 @@ public class EvaluationEntity {
         updatedAt = currentDate;
     }
 
-    public EvaluationEntity(String userID, String lectureName, String professorName, int lectureYear, String semesterDivide, String lectureDivide, String evaluationTitle, String evaluationContent, String totalScore, String creditScore, String comfortableScore, String lectureScore) {
+    public EvaluationEntity(String userID, String lectureName, String professorName, int lectureYear, String semesterDivide, String lectureDivide, String evaluationTitle, String evaluationContent, String totalScore, String creditScore, String comfortableScore, String lectureScore, Date createdAt) {
         this.userID = userID;
         this.lectureName = lectureName;
         this.professorName = professorName;
@@ -91,6 +91,8 @@ public class EvaluationEntity {
         this.creditScore = creditScore;
         this.comfortableScore = comfortableScore;
         this.lectureScore = lectureScore;
+        this.createdAt =  createdAt;
+
     }
 
 
