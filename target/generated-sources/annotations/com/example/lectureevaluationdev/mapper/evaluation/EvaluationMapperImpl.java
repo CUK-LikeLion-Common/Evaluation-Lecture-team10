@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-18T19:40:04+0900",
-    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 20 (Oracle Corporation)"
+    date = "2023-07-25T16:07:00+0900",
+    comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.2 (Oracle Corporation)"
 )
 @Component
 public class EvaluationMapperImpl implements EvaluationMapper {
@@ -35,6 +35,7 @@ public class EvaluationMapperImpl implements EvaluationMapper {
         evaluationDTO.professorName( entity.getProfessorName() );
         evaluationDTO.lectureName( entity.getLectureName() );
         evaluationDTO.userID( entity.getUserID() );
+        evaluationDTO.createdAt( entity.getCreatedAt() );
         evaluationDTO.evaluationID( entity.getEvaluationID() );
 
         return evaluationDTO.build();
@@ -61,6 +62,7 @@ public class EvaluationMapperImpl implements EvaluationMapper {
         evaluationEntity.creditScore( dto.getCreditScore() );
         evaluationEntity.comfortableScore( dto.getComfortableScore() );
         evaluationEntity.lectureScore( dto.getLectureScore() );
+        evaluationEntity.createdAt( dto.getCreatedAt() );
 
         return evaluationEntity.build();
     }
@@ -133,6 +135,9 @@ public class EvaluationMapperImpl implements EvaluationMapper {
         }
         if ( dto.getLectureScore() != null ) {
             entity.setLectureScore( dto.getLectureScore() );
+        }
+        if ( dto.getCreatedAt() != null ) {
+            entity.setCreatedAt( dto.getCreatedAt() );
         }
     }
 }
