@@ -1,0 +1,74 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - develop_FE
+      - develop_BE
+  workflow_dispatch:
+  # 이벤트 수동 트리거 (Workflow가 수동으로 실행될 때 사용)
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: "17"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "17" # 선택한 적절한 Node.js 버전을 입력해주세요
+
+      - name: Install frontend dependencies
+        if: github.ref == 'refs/heads/front'
+        run: npm install
+
+      - name: Build frontend Docker image
+        if: github.ref == 'refs/heads/front'
+        env:
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+        run: |
+          docker build -t ghcr.io/${{ env.GHCR_USERNAME }}/frontend:${GITHUB_SHA} .
+          echo $GHCR_TOKEN | docker login ghcr.io -u $GHCR_USERNAME --password-stdin
+          docker push ghcr.io/${{ env.GHCR_USERNAME }}/frontend:${GITHUB_SHA}
+          docker tag ghcr.io/${{ env.GHCR_USERNAME }}/frontend:${GITHUB_SHA} ghcr.io/${{ env.GHCR_USERNAME }}/frontend:latest
+          docker push ghcr.io/${{ env.GHCR_USERNAME }}/frontend:latest
+
+      - name: Install backend dependencies
+        if: github.ref == 'refs/heads/backend'
+        run: |
+          # 백엔드 종속성 설치 명령어 입력 (예: maven, gradle 등)
+
+      - name: Build backend Docker image
+        if: github.ref == 'refs/heads/backend'
+        env:
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME }}
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+        run: |
+          # 백엔드 Dockerfile 빌드 명령어 입력
+
+          docker build -t ghcr.io/${{ env.GHCR_USERNAME }}/backend:${GITHUB_SHA} .
+          echo $GHCR_TOKEN | docker login ghcr.io -u $GHCR_USERNAME --password-stdin
+          docker push ghcr.io/${{ env.GHCR_USERNAME }}/backend:${GITHUB_SHA}
+          docker tag ghcr.io/${{ env.GHCR_USERNAME }}/backend:${GITHUB_SHA} ghcr.io/${{ env.GHCR_USERNAME }}/backend:latest
+          docker push ghcr.io/${{ env.GHCR_USERNAME }}/backend:latest
+
+      - name: Deploy to cloud server
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' && github.ref == 'refs/tags/*' }}
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd ./docker-compose.yaml
+            docker-compose pull
+            docker-compose up -d

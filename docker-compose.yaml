@@ -1,0 +1,19 @@
+version: '3'
+services:
+  frontend:
+    image: ghcr.io/cuk-likelion-common/frontend:latest
+    ports:
+      - "3000:3000"
+    networks:
+      - app_net
+
+  backend:
+    image: ghcr.io/cuk-likelion-common/backend:latest
+    ports:
+      - "8082:8082"
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge
